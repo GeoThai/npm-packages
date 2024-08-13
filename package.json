@@ -1,6 +1,6 @@
 {
     "name": "geothai",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "description": "An npm package for Node.js to access detailed geographic data on Thailand, including provinces, districts, and subdistricts. 🌟",
     "repository": {
         "type": "git",
@@ -15,6 +15,17 @@
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
+    "keywords": [
+        "geodata",
+        "thailand",
+        "gis",
+        "mapping",
+        "provinces",
+        "districts",
+        "subdistricts",
+        "location-data",
+        "geo-thailand"
+    ],
     "scripts": {
         "build": "tsup",
         "format": "prettier --check .",
