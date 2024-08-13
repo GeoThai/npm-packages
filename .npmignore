@@ -1,4 +1,5 @@
 # Ignore development and configuration files
+.changeset
 .commitlintrc.json
 .gitignore
 .lintstagedrc.json
@@ -13,6 +14,12 @@ vite.config.mts
 # Ignore GitHub workflows and Husky hooks
 .github/
 .husky/
+
+# Ignore package lock files
+pnpm-lock.yaml
+
+# Ignore log files
+*.log
 
 # Ignore testing and documentation files
 tests/

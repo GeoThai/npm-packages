@@ -9,7 +9,7 @@ import {
     getProvincesByCriterion,
     getSubdistrictById,
     getSubdistrictsByCriterion
-} from '../build'
+} from '../dist'
 
 describe('test', () => {
     const provinces = getAllProvinces()
