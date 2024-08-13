@@ -1,0 +1,27 @@
+# Ignore development and configuration files
+.commitlintrc.json
+.gitignore
+.lintstagedrc.json
+.nvmrc
+.prettierrc.json
+eslint.config.mjs
+knip.json
+tsconfig.json
+tsup.config.ts
+vite.config.mts
+
+# Ignore GitHub workflows and Husky hooks
+.github/
+.husky/
+
+# Ignore testing and documentation files
+tests/
+
+# Ignore JSON files used for data
+src/data/
+
+# Ignore TypeScript files (if you are distributing compiled JavaScript)
+src/**/*.ts
+
+# Optionally, if you have a build output directory, you might want to include it in .npmignore as well:
+build/

@@ -1,0 +1,21 @@
+{
+    "$schema": "https://json.schemastore.org/prettierrc",
+    "plugins": ["prettier-plugin-pkg", "@ianvs/prettier-plugin-sort-imports"],
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "none",
+    "printWidth": 120,
+    "tabWidth": 4,
+    "useTabs": false,
+    "proseWrap": "preserve",
+    "htmlWhitespaceSensitivity": "ignore",
+    "endOfLine": "auto",
+    "overrides": [
+        {
+            "files": "*.yml",
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}

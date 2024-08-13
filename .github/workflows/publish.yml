@@ -1,0 +1,46 @@
+name: 🚀 Publish Release
+on:
+  workflow_run:
+    workflows: ['⚙️ Test']
+    branches:
+      - main
+    types:
+      - completed
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  publish:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4.1.1
+        name: ⬇️ Checkout repository
+      - uses: pnpm/action-setup@v3.0.0
+        name: 🛠️ Setup pnpm
+        with:
+          version: latest
+      - uses: actions/setup-node@v4.0.2
+        name: 📦 Setup Node.js
+        with:
+          node-version: 18
+          cache: pnpm
+      - name: 🔍 Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: 🏗 Build project
+        run: pnpm build
+      - name: 🚀 Publish release
+        id: changesets
+        uses: changesets/action@v1
+        with:
+          publish: pnpm publish:npm
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

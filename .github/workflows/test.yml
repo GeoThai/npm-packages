@@ -1,0 +1,29 @@
+name: ⚙️ Test
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+        name: ⬇️ Checkout repository
+      - uses: pnpm/action-setup@v3.0.0
+        name: 🛠️ Setup pnpm
+        with:
+          version: latest
+      - uses: actions/setup-node@v4.0.2
+        name: 📦 Setup Node.js
+        with:
+          node-version: 18
+          cache: pnpm
+      - name: 🔍 Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: 🧹 Lint
+        run: pnpm lint
+      - name: 🏗️ Build
+        run: pnpm build
+      - name: 🧪 Test
+        run: pnpm test

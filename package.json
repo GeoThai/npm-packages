@@ -1,0 +1,50 @@
+{
+    "name": "geothai",
+    "version": "0.0.1",
+    "description": "An npm package for Node.js to access detailed geographic data on Thailand, including provinces, districts, and subdistricts. 🌟",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/GeoThai/npm-packages.git"
+    },
+    "homepage": "https://github.com/GeoThai/npm-packages#readme",
+    "bugs": {
+        "url": "https://github.com/GeoThai/npm-packages/issues"
+    },
+    "author": "GeoThai Team",
+    "license": "MIT",
+    "main": "dist/index.js",
+    "module": "dist/index.mjs",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "build": "tsup",
+        "format": "prettier --check .",
+        "format:fix": "prettier --write --list-different .",
+        "knip": "knip",
+        "knip:fix": "knip --fix",
+        "lint": "eslint src",
+        "prepare": "husky",
+        "pretest": "pnpm build",
+        "test": "vitest run"
+    },
+    "devDependencies": {
+        "@changesets/cli": "^2.27.7",
+        "@commitlint/cli": "^19.4.0",
+        "@commitlint/config-conventional": "^19.2.2",
+        "@eslint/js": "^9.9.0",
+        "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+        "@total-typescript/tsconfig": "^1.0.4",
+        "@types/node": "^22.2.0",
+        "eslint": "^9.9.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "globals": "^15.9.0",
+        "husky": "^9.1.4",
+        "knip": "^5.27.2",
+        "lint-staged": "^15.2.9",
+        "prettier": "^3.3.3",
+        "prettier-plugin-pkg": "^0.18.1",
+        "tsup": "^8.2.4",
+        "typescript": "^5.5.4",
+        "typescript-eslint": "^8.1.0",
+        "vitest": "^2.0.5"
+    }
+}
