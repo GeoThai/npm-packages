@@ -1,5 +1,35 @@
 # GeoThai NPM Packages
 
+## [0.1.0] - 2024-08-13
+
+### Minor Changes
+
+#### Added
+
+-   **New Services**: Split functionality into modular services:
+    -   `src/services/province.ts`: Handles all province-related operations.
+    -   `src/services/district.ts`: Handles all district-related operations.
+    -   `src/services/subdistrict.ts`: Handles all subdistrict-related operations.
+-   **Utility Function**: Added `src/utils/criteria-matcher.ts` for consistent criteria-based filtering across services.
+
+#### Changed
+
+-   **Code Refactoring**:
+    -   Moved logic from `src/index.ts` to the new service modules.
+    -   Simplified `index.ts` by re-exporting the services and utilities.
+-   **Test Structure**:
+    -   Removed outdated tests (`tests/index.test.ts`).
+    -   Introduced new tests for individual services (`tests/district.test.ts`, `tests/province.test.ts`, `tests/subdistrict.test.ts`).
+
+#### Removed
+
+-   **Deprecated Test**: Removed `tests/index.test.ts` in favor of more granular test coverage in new service-specific tests.
+
+#### Improvements
+
+-   Enhanced code organization by modularizing the service logic, improving maintainability and readability.
+-   Centralized criteria matching logic in a dedicated utility function, ensuring consistency across different modules.
+
 ## [0.0.2] - 2024-08-13
 
 ### Patch Changes
