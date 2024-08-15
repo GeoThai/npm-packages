@@ -1,21 +1,36 @@
 import subdistrictsData from '../data/subdistricts.json'
 import type { Subdistrict } from '../types'
-import { matchCriteria } from '../utils/criteria-matcher'
+import { cache } from '../utils/cache'
+import { createService } from '../utils/create-service'
 
-const subdistricts = new Map<number, Subdistrict>(
-    subdistrictsData.map((subdistrict) => [subdistrict.subdistrict_id, subdistrict])
-)
+const subdistrictService = createService<Subdistrict>(subdistrictsData, 'subdistrict_id')
 
 export function getAllSubdistricts(): Subdistrict[] {
-    return Array.from(subdistricts.values())
+    const key = 'subdistricts'
+    if (cache.has(key)) {
+        return cache.get<Subdistrict[]>(key)!
+    }
+    const subdistricts = subdistrictService.getAll()
+    cache.set<Subdistrict[]>(key, subdistricts)
+    return subdistricts
 }
 
 export function getSubdistrictById(subdistrictId: number): Subdistrict | undefined {
-    return subdistricts.get(subdistrictId)
+    const key = `subdistrict-${subdistrictId}`
+    if (cache.has(key)) {
+        return cache.get<Subdistrict>(key)!
+    }
+    const subdistrict = subdistrictService.getById(subdistrictId)
+    cache.set(key, subdistrict)
+    return subdistrict
 }
 
 export function getSubdistrictsByCriterion(criterion: Partial<Subdistrict>): Subdistrict[] {
-    return Array.from(subdistricts.values()).filter((subdistrict) => {
-        return matchCriteria(subdistrict, criterion)
-    })
+    const key = `subdistricts-${JSON.stringify(criterion)}`
+    if (cache.has(key)) {
+        return cache.get<Subdistrict[]>(key)!
+    }
+    const subdistricts = subdistrictService.getByCriterion(criterion)
+    cache.set(key, subdistricts)
+    return subdistricts
 }

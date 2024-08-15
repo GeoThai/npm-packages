@@ -1,6 +1,27 @@
 # GeoThai NPM Packages
 
-## [0.1.0] - 2024-08-13
+## 0.2.0 - 2024-08-15
+
+### Minor Changes
+
+#### Added
+
+-   **Caching**: Introduced `src/utils/cache.ts` to cache results and improve performance for frequently accessed data.
+-   **Service Creation Utility**: Added `src/utils/create-service.ts` to simplify the creation of data services with caching and lookup functionality.
+
+#### Changed
+
+-   **District Service**: Updated to use caching and the `createService` utility. Functions now cache results for better performance.
+-   **Province Service**: Refactored to leverage caching and the `createService` utility. Improved performance with result caching.
+-   **Subdistrict Service**: Enhanced with caching and the `createService` utility. Optimized data retrieval with cached results.
+
+#### Improvements
+
+-   Improved data retrieval performance across services by integrating caching mechanisms.
+-   Modularized service creation with `createService` utility, promoting code reuse and consistency.
+-   Enhanced maintainability and performance by centralizing caching logic in `src/utils/cache.ts`.
+
+## 0.1.0 - 2024-08-14
 
 ### Minor Changes
 
@@ -30,7 +51,7 @@
 -   Enhanced code organization by modularizing the service logic, improving maintainability and readability.
 -   Centralized criteria matching logic in a dedicated utility function, ensuring consistency across different modules.
 
-## [0.0.2] - 2024-08-13
+## 0.0.2 - 2024-08-13
 
 ### Patch Changes
 
@@ -44,7 +65,7 @@
 
 -   Enhanced type safety and clarity in `src/index.ts`.
 
-## [0.0.1] - 2024-08-13
+## 0.0.1 - 2024-08-13
 
 ### Initial Release
 

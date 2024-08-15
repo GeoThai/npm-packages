@@ -1,19 +1,36 @@
 import provincesData from '../data/provinces.json'
 import type { Province } from '../types'
-import { matchCriteria } from '../utils/criteria-matcher'
+import { cache } from '../utils/cache'
+import { createService } from '../utils/create-service'
 
-const provinces = new Map<number, Province>(provincesData.map((province) => [province.province_id, province]))
+const provinceService = createService<Province>(provincesData, 'province_id')
 
 export function getAllProvinces(): Province[] {
-    return Array.from(provinces.values())
+    const key = 'provinces'
+    if (cache.has(key)) {
+        return cache.get<Province[]>(key)!
+    }
+    const provinces = provinceService.getAll()
+    cache.set<Province[]>(key, provinces)
+    return provinces
 }
 
 export function getProvinceById(provinceId: number): Province | undefined {
-    return provinces.get(provinceId)
+    const key = `province-${provinceId}`
+    if (cache.has(key)) {
+        return cache.get<Province>(key)!
+    }
+    const province = provinceService.getById(provinceId)
+    cache.set(key, province)
+    return province
 }
 
 export function getProvincesByCriterion(criterion: Partial<Province>): Province[] {
-    return Array.from(provinces.values()).filter((province) => {
-        return matchCriteria(province, criterion)
-    })
+    const key = `provinces-${JSON.stringify(criterion)}`
+    if (cache.has(key)) {
+        return cache.get<Province[]>(key)!
+    }
+    const provinces = provinceService.getByCriterion(criterion)
+    cache.set(key, provinces)
+    return provinces
 }

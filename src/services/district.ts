@@ -1,19 +1,36 @@
 import districtsData from '../data/districts.json'
 import type { District } from '../types'
-import { matchCriteria } from '../utils/criteria-matcher'
+import { cache } from '../utils/cache'
+import { createService } from '../utils/create-service'
 
-const districts = new Map<number, District>(districtsData.map((district) => [district.district_id, district]))
+const districtService = createService<District>(districtsData, 'district_id')
 
 export function getAllDistricts(): District[] {
-    return Array.from(districts.values())
+    const key = 'districts'
+    if (cache.has(key)) {
+        return cache.get<District[]>(key)!
+    }
+    const districts = districtService.getAll()
+    cache.set<District[]>(key, districts)
+    return districts
 }
 
 export function getDistrictById(districtId: number): District | undefined {
-    return districts.get(districtId)
+    const key = `district-${districtId}`
+    if (cache.has(key)) {
+        return cache.get<District>(key)!
+    }
+    const district = districtService.getById(districtId)
+    cache.set(key, district)
+    return district
 }
 
 export function getDistrictsByCriterion(criterion: Partial<District>): District[] {
-    return Array.from(districts.values()).filter((district) => {
-        return matchCriteria(district, criterion)
-    })
+    const key = `districts-${JSON.stringify(criterion)}`
+    if (cache.has(key)) {
+        return cache.get<District[]>(key)!
+    }
+    const districts = districtService.getByCriterion(criterion)
+    cache.set(key, districts)
+    return districts
 }
