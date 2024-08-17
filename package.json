@@ -1,7 +1,7 @@
 {
     "name": "geothai",
-    "version": "0.2.0",
-    "description": "An npm package for Node.js to access detailed geographic data on Thailand, including provinces, districts, and subdistricts. 🌟",
+    "version": "1.0.0",
+    "description": "An npm package for Node.js to access detailed geographic data on Thailand, including provinces, districts, subdistricts, and postal code. 🌟",
     "repository": {
         "type": "git",
         "url": "https://github.com/GeoThai/npm-packages.git"

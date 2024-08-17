@@ -3,7 +3,7 @@
 ![NPM Version](https://img.shields.io/npm/v/geothai)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
-Welcome to the **GeoThai NPM Packages** repository! 🌟 This repository provides an npm package for Node.js that allows you to retrieve detailed geographic data of provinces, districts, and subdistricts in Thailand.
+Welcome to the **GeoThai NPM Packages** repository! 🌟 This repository provides an npm package for Node.js that allows you to retrieve detailed geographic data of provinces, districts, subdistricts, and postal code in Thailand.
 
 ## 📦 Overview
 
@@ -12,6 +12,7 @@ This package includes functions to access and retrieve data about:
 -   **Provinces**
 -   **Districts**
 -   **Subdistricts**
+-   **Postal Code**
 
 The data is sourced from comprehensive JSON files included in the package.
 
@@ -23,6 +24,8 @@ The data is sourced from comprehensive JSON files included in the package.
 -   **Retrieve District by ID**: Get details of a specific district using its ID.
 -   **Retrieve All Subdistricts**: Fetch a list of all subdistricts.
 -   **Retrieve Subdistrict by ID**: Get details of a specific subdistrict using its ID.
+-   **Retrieve All Postal Codes**: Fetch a list of all postal codes.
+-   **Retrieve Postal Code by Code**: Get details of a specific postal code using its code.
 -   **Filter by Criterion**: Retrieve entities based on specific criteria.
 
 ## 🚀 Installation
@@ -51,29 +54,6 @@ console.log(province)
 // Retrieve provinces by a specific criterion
 const filteredProvinces = getProvincesByCriterion({ province_name_th: 'กรุงเทพมหานคร' })
 console.log(filteredProvinces)
-```
-
-## 🔍 Examples
-
-**Retrieve All Provinces**
-
-```typescript
-const provinces = getAllProvinces()
-console.log(provinces)
-```
-
-**Retrieve Province by ID**
-
-```typescript
-const province = getProvinceById(10)
-console.log(province)
-```
-
-**Retrieve Districts by Criterion**
-
-```typescript
-const districts = getDistrictsByCriterion({ district_name_th: 'พระนคร' })
-console.log(districts)
 ```
 
 ## 🤝 Contributing

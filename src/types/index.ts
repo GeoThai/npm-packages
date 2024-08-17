@@ -1,3 +1,5 @@
-export * from './District'
 export * from './Province'
+export * from './District'
 export * from './Subdistrict'
+export * from './PostalCode'
+export * from './Metadata'

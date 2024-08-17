@@ -1,4 +1,29 @@
-# GeoThai NPM Packages
+# GeoThai NPM Packages Changelog
+
+## 1.0.0 - 2024-08-17
+
+### Added
+
+-   **Integrated Data Structure**: Replaced individual JSON files with a more integrated data structure, featuring nested relationships among provinces, districts, and subdistricts. Added additional postal code data with `src/data/postal_codes.json`.
+-   **Metadata**: Introduced `src/data/metadata.json` to provide detailed information about data versioning and statistics.
+-   **Postal Code Service**: Added new service `src/services/postal-code.ts` to handle postal code data, including retrieval functions.
+-   **New Type Definitions**: Added new TypeScript types for metadata and postal codes:
+    -   `src/types/Metadata.ts`
+    -   `src/types/PostalCode.ts`
+
+### Changed
+
+-   **Data Files**: Updated data files for provinces, districts, and subdistricts to reflect the new integrated structure and added postal code data.
+-   **Service Implementations**: Refactored existing services (`province.ts`, `district.ts`, `subdistrict.ts`) to accommodate the new data structure:
+    -   Updated identifiers from `province_id`, `district_id`, `subdistrict_id` to `id`.
+    -   Adjusted data retrieval logic to work with the new nested data format.
+-   **Index and Exports**: Updated `src/index.ts` to include the new postal code service and metadata.
+-   **Test Updates**: Revised tests to match the updated data structure and identifiers. Added new tests for postal codes and metadata.
+
+### Improvements
+
+-   **Data Integration**: Enhanced data organization by integrating related entities and adding postal code information, improving data accessibility and usability.
+-   **Performance**: Improved service performance and consistency with the updated data structure and new caching mechanisms.
 
 ## 0.2.0 - 2024-08-15
 

@@ -9,28 +9,28 @@ describe('Subdistrict Service', () => {
     })
 
     test('should retrieve a subdistrict by ID', () => {
-        const subdistrictId = 100101
-        const subdistrict = getSubdistrictById(subdistrictId)
+        const id = 100101
+        const subdistrict = getSubdistrictById(id)
         expect(subdistrict).toBeDefined()
-        expect(subdistrict?.subdistrict_id).toBe(subdistrictId)
+        expect(subdistrict?.id).toBe(id)
     })
 
     test('should return undefined for an invalid subdistrict ID', () => {
-        const invalidSubdistrictId = 99999
-        const subdistrict = getSubdistrictById(invalidSubdistrictId)
+        const invalidId = 99999
+        const subdistrict = getSubdistrictById(invalidId)
         expect(subdistrict).toBeUndefined()
     })
 
     test('should retrieve subdistricts by a specific criterion', () => {
-        const criterion: Partial<Subdistrict> = { subdistrict_name_en: 'Phra Borom Maha Ratchawang' }
+        const criterion: Partial<Subdistrict> = { en: 'Phra Borom Maha Ratchawang' }
         const subdistricts = getSubdistrictsByCriterion(criterion)
         expect(subdistricts).toBeInstanceOf(Array)
         expect(subdistricts.length).toBeGreaterThan(0)
-        expect(subdistricts[0]!.subdistrict_name_en).toBe('Phra Borom Maha Ratchawang')
+        expect(subdistricts[0]!.en).toBe('Phra Borom Maha Ratchawang')
     })
 
     test('should return an empty array for a non-matching criterion', () => {
-        const criterion: Partial<Subdistrict> = { subdistrict_name_en: 'Non-Existent Subdistrict' }
+        const criterion: Partial<Subdistrict> = { en: 'Non-Existent Subdistrict' }
         const subdistricts = getSubdistrictsByCriterion(criterion)
         expect(subdistricts).toBeInstanceOf(Array)
         expect(subdistricts.length).toBe(0)

@@ -3,7 +3,7 @@ import type { Subdistrict } from '../types'
 import { cache } from '../utils/cache'
 import { createService } from '../utils/create-service'
 
-const subdistrictService = createService<Subdistrict>(subdistrictsData, 'subdistrict_id')
+const subdistrictService = createService<Subdistrict>(subdistrictsData, 'id')
 
 export function getAllSubdistricts(): Subdistrict[] {
     const key = 'subdistricts'

@@ -3,7 +3,7 @@ import type { Province } from '../types'
 import { cache } from '../utils/cache'
 import { createService } from '../utils/create-service'
 
-const provinceService = createService<Province>(provincesData, 'province_id')
+const provinceService = createService<Province>(provincesData, 'id')
 
 export function getAllProvinces(): Province[] {
     const key = 'provinces'

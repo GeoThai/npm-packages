@@ -3,7 +3,7 @@ import type { District } from '../types'
 import { cache } from '../utils/cache'
 import { createService } from '../utils/create-service'
 
-const districtService = createService<District>(districtsData, 'district_id')
+const districtService = createService<District>(districtsData, 'id')
 
 export function getAllDistricts(): District[] {
     const key = 'districts'
