@@ -52,7 +52,7 @@ const province = getProvinceById(10)
 console.log(province)
 
 // Retrieve provinces by a specific criterion
-const filteredProvinces = getProvincesByCriterion({ province_name_th: 'กรุงเทพมหานคร' })
+const filteredProvinces = getProvincesByCriterion({ th: 'กรุงเทพมหานคร' })
 console.log(filteredProvinces)
 ```
 
