@@ -62,8 +62,8 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 
 ## Additional Resources
 
--   [GitHub Docs - Creating a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
--   [npm Documentation](https://docs.npmjs.com/)
+- [GitHub Docs - Creating a Pull Request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request)
+- [npm Documentation](https://docs.npmjs.com/)
 
 ## Contact
 

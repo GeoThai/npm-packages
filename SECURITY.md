@@ -19,29 +19,29 @@ If you discover a security vulnerability in the **GeoThai** npm package, please 
 
 To ensure a coordinated and responsible disclosure, please follow these practices:
 
--   **Do Not Exploit**: Avoid exploiting the vulnerability or using it in a way that could cause harm to users or systems.
--   **Private Disclosure**: Wait for us to release a fix before disclosing the vulnerability publicly.
--   **Collaborate**: Provide any additional information or assistance that may help us address the issue.
+- **Do Not Exploit**: Avoid exploiting the vulnerability or using it in a way that could cause harm to users or systems.
+- **Private Disclosure**: Wait for us to release a fix before disclosing the vulnerability publicly.
+- **Collaborate**: Provide any additional information or assistance that may help us address the issue.
 
 ## Security Updates
 
--   **Patch Releases**: Security updates will be released as soon as possible. We will publish updates and advisories on our GitHub repository and notify users of critical patches.
--   **Versioning**: All security fixes will be included in patch releases. Please keep your package up to date to ensure you have the latest security patches.
+- **Patch Releases**: Security updates will be released as soon as possible. We will publish updates and advisories on our GitHub repository and notify users of critical patches.
+- **Versioning**: All security fixes will be included in patch releases. Please keep your package up to date to ensure you have the latest security patches.
 
 ## Security Practices
 
 We take security seriously and follow best practices to protect our codebase and users:
 
--   **Code Reviews**: All changes to the codebase are reviewed by multiple maintainers to catch potential security issues.
--   **Automated Testing**: We use automated testing tools to identify vulnerabilities and ensure the security of our package.
--   **Zero Dependencies**: The **GeoThai** package has no external dependencies, reducing the risk of vulnerabilities introduced through third-party code.
+- **Code Reviews**: All changes to the codebase are reviewed by multiple maintainers to catch potential security issues.
+- **Automated Testing**: We use automated testing tools to identify vulnerabilities and ensure the security of our package.
+- **Zero Dependencies**: The **GeoThai** package has no external dependencies, reducing the risk of vulnerabilities introduced through third-party code.
 
 ## Additional Resources
 
 For more information on security practices and responsible disclosure, you may refer to the following resources:
 
--   [OWASP Security Guide](https://owasp.org/www-project-top-ten/)
--   [GitHub Security Advisories](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories)
+- [OWASP Security Guide](https://owasp.org/www-project-top-ten/)
+- [GitHub Security Advisories](https://docs.github.com/en/code-security/security-advisories/working-with-repository-security-advisories/about-repository-security-advisories)
 
 ## Contact
 

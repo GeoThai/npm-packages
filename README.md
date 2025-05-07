@@ -9,24 +9,24 @@ Welcome to the **GeoThai NPM Packages** repository! 🌟 This repository provide
 
 This package includes functions to access and retrieve data about:
 
--   **Provinces**
--   **Districts**
--   **Subdistricts**
--   **Postal Code**
+- **Provinces**
+- **Districts**
+- **Subdistricts**
+- **Postal Code**
 
 The data is sourced from comprehensive JSON files included in the package.
 
 ## 📊 Features
 
--   **Retrieve All Provinces**: Fetch a list of all provinces in Thailand.
--   **Retrieve Province by ID**: Get details of a specific province using its ID.
--   **Retrieve All Districts**: Fetch a list of all districts.
--   **Retrieve District by ID**: Get details of a specific district using its ID.
--   **Retrieve All Subdistricts**: Fetch a list of all subdistricts.
--   **Retrieve Subdistrict by ID**: Get details of a specific subdistrict using its ID.
--   **Retrieve All Postal Codes**: Fetch a list of all postal codes.
--   **Retrieve Postal Code by Code**: Get details of a specific postal code using its code.
--   **Filter by Criterion**: Retrieve entities based on specific criteria.
+- **Retrieve All Provinces**: Fetch a list of all provinces in Thailand.
+- **Retrieve Province by ID**: Get details of a specific province using its ID.
+- **Retrieve All Districts**: Fetch a list of all districts.
+- **Retrieve District by ID**: Get details of a specific district using its ID.
+- **Retrieve All Subdistricts**: Fetch a list of all subdistricts.
+- **Retrieve Subdistrict by ID**: Get details of a specific subdistrict using its ID.
+- **Retrieve All Postal Codes**: Fetch a list of all postal codes.
+- **Retrieve Postal Code by Code**: Get details of a specific postal code using its code.
+- **Filter by Criterion**: Retrieve entities based on specific criteria.
 
 ## 🚀 Installation
 
