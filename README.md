@@ -1,7 +1,7 @@
 # GeoThai NPM Packages
 
 ![NPM Version](https://img.shields.io/npm/v/geothai)
-![License](https://img.shields.io/badge/license-MIT-green)
+[![Total Downloads](https://img.shields.io/npm/dt/geothai?label=downloads)](https://www.npmjs.com/package/geothai)
 
 Welcome to the **GeoThai NPM Packages** repository! 🌟 This repository provides an npm package for Node.js that allows you to retrieve detailed geographic data of provinces, districts, subdistricts, and postal code in Thailand.
 
