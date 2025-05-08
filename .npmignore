@@ -16,7 +16,7 @@ vite.config.mts
 .husky/
 
 # Ignore package lock files
-pnpm-lock.yaml
+bun.lock
 
 # Ignore log files
 *.log
@@ -24,11 +24,8 @@ pnpm-lock.yaml
 # Ignore testing and documentation files
 tests/
 
-# Ignore JSON files used for data
-src/data/
-
-# Ignore TypeScript files (if you are distributing compiled JavaScript)
-src/**/*.ts
+# Ignore source files
+src/
 
 # Optionally, if you have a build output directory, you might want to include it in .npmignore as well:
 build/
