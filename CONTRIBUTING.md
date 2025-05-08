@@ -67,6 +67,6 @@ By participating in this project, you agree to abide by our [Code of Conduct](CO
 
 ## Contact
 
-If you have any questions or need further assistance, please contact us at [pyyupsk@proton.me](mailto:pyyupsk@proton.me).
+If you have any questions or need further assistance, please contact us at [contact@fasu.dev](mailto:contact@fasu.dev).
 
 Thank you for contributing to the **GeoThai** project! Your efforts help us make the package better for everyone. 🙌

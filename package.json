@@ -32,10 +32,12 @@
         "knip": "knip",
         "knip:fix": "knip --fix",
         "lint": "eslint src",
+        "lint:fix": "eslint src --fix",
         "prepare": "husky",
         "publish:local": "yalc publish",
         "publish:npm": "changeset publish",
-        "test": "vitest run"
+        "test": "vitest run",
+        "typecheck": "tsc --noEmit"
     },
     "devDependencies": {
         "@changesets/cli": "^2.29.3",

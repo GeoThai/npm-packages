@@ -41,18 +41,18 @@ npm install geothai
 Here’s a quick guide on how to use the package:
 
 ```typescript
-import { getAllProvinces, getProvinceById, getProvincesByCriterion } from 'geothai'
+import { getAllProvinces, getProvinceByCode, getProvincesByCriterion } from 'geothai'
 
 // Retrieve all provinces
 const provinces = getAllProvinces()
 console.log(provinces)
 
-// Retrieve a single province by ID
-const province = getProvinceById(10)
+// Retrieve a single province by code (with auto-completion)
+const province = getProvinceByCode('10')
 console.log(province)
 
 // Retrieve provinces by a specific criterion
-const filteredProvinces = getProvincesByCriterion({ th: 'กรุงเทพมหานคร' })
+const filteredProvinces = getProvincesByCriterion({ name_th: 'กรุงเทพมหานคร' })
 console.log(filteredProvinces)
 ```
 
@@ -66,6 +66,6 @@ This project is licensed under the [MIT License](LICENSE). See the LICENSE file 
 
 ## 🙋‍♂️ Contact
 
-For any questions or support, please open an issue or contact us at [pyyupsk@proton.me](mailto:pyyupsk@proton.me).
+For any questions or support, please open an issue or contact us at [contact@fasu.dev](mailto:contact@fasu.dev).
 
 Happy coding! 🎉
