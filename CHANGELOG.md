@@ -1,5 +1,21 @@
 # GeoThai NPM Packages Changelog
 
+## 2.0.0 - 2025-05-08
+
+### Minor Changes
+
+- **BREAKING CHANGE**: Updated the data structure for provinces, districts, subdistricts, and postal codes. The internal JSON format has changed, which impacts the shape of the exported types.
+- **Type Changes**: The following functions now expect different type shapes for their input and output due to the updated data definitions:
+
+    - `getProvincesByCriterion(criterion: Partial<Province>)`
+    - `getDistrictsByCriterion(criterion: Partial<District>)`
+    - `getSubdistrictsByCriterion(criterion: Partial<Subdistrict>)`
+
+    > [!WARNING]
+    > While function names and signatures remain the same, the change in data types can result in **TypeScript compilation errors** or runtime issues if existing code assumes the old structure.
+
+- **Refactor**: Services for provinces, districts, subdistricts, and postal codes have been updated to work with the new structure. This improves consistency and prepares for better scalability, but may require consumers to adjust their usage of types.
+
 ## 1.0.0 - 2024-08-17
 
 ### Added
