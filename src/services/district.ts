@@ -1,9 +1,15 @@
-import districtsData from '../data/districts.json'
-import type { District } from '../types'
+import districts from '../data/districts.json'
+import type { District, DistrictIndex } from '../types'
 import { cache } from '../utils/cache'
 import { createService } from '../utils/create-service'
+import { recordToArray } from '../utils/record-to-array'
 
-const districtService = createService<District>(districtsData, 'id')
+export const createDistrictService = (data: Record<DistrictIndex, District>) => {
+    const districts = recordToArray(data)
+    return createService<District>(districts, 'code')
+}
+
+const districtService = createService<District>(recordToArray(districts), 'code')
 
 export function getAllDistricts(): District[] {
     const key = 'districts'
@@ -15,12 +21,12 @@ export function getAllDistricts(): District[] {
     return districts
 }
 
-export function getDistrictById(districtId: number): District | undefined {
-    const key = `district-${districtId}`
+export function getDistrictByCode(code: DistrictIndex): District | undefined {
+    const key = `district-${code}`
     if (cache.has(key)) {
         return cache.get<District>(key)!
     }
-    const district = districtService.getById(districtId)
+    const district = districtService.getByCode(code)
     cache.set(key, district)
     return district
 }

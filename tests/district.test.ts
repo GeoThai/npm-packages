@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { getAllDistricts, getDistrictById, getDistrictsByCriterion, type District } from '../dist'
+import { getAllDistricts, getDistrictByCode, getDistrictsByCriterion, type District } from '../dist'
 
 describe('District Service', () => {
     test('should retrieve all districts', () => {
@@ -8,29 +8,30 @@ describe('District Service', () => {
         expect(districts.length).toBeGreaterThan(0)
     })
 
-    test('should retrieve a district by ID', () => {
-        const id = 1001
-        const district = getDistrictById(id)
+    test('should retrieve a district by code', () => {
+        const code = '1001'
+        const district = getDistrictByCode(code)
         expect(district).toBeDefined()
-        expect(district?.id).toBe(id)
+        expect(district?.code).toBe(Number(code))
     })
 
-    test('should return undefined for an invalid district ID', () => {
-        const invalidId = 99999
-        const district = getDistrictById(invalidId)
+    test('should return undefined for an invalid district code', () => {
+        const invalidCode = '99999'
+        // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        const district = getDistrictByCode(invalidCode)
         expect(district).toBeUndefined()
     })
 
     test('should retrieve districts by a specific criterion', () => {
-        const criterion: Partial<District> = { en: 'Phra Nakhon' }
+        const criterion: Partial<District> = { name_en: 'Phra Nakhon' }
         const districts = getDistrictsByCriterion(criterion)
         expect(districts).toBeInstanceOf(Array)
         expect(districts.length).toBeGreaterThan(0)
-        expect(districts[0]!.en).toBe('Phra Nakhon')
+        expect(districts[0]!.name_en).toBe('Phra Nakhon')
     })
 
     test('should return an empty array for a non-matching criterion', () => {
-        const criterion: Partial<District> = { en: 'Non-Existent District' }
+        const criterion: Partial<District> = { name_en: 'Non-Existent District' }
         const districts = getDistrictsByCriterion(criterion)
         expect(districts).toBeInstanceOf(Array)
         expect(districts.length).toBe(0)

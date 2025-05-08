@@ -1,9 +1,15 @@
-import provincesData from '../data/provinces.json'
-import type { Province } from '../types'
+import provinces from '../data/provinces.json'
+import type { Province, ProvinceIndex } from '../types'
 import { cache } from '../utils/cache'
 import { createService } from '../utils/create-service'
+import { recordToArray } from '../utils/record-to-array'
 
-const provinceService = createService<Province>(provincesData, 'id')
+export const createProvinceService = (data: Record<ProvinceIndex, Province>) => {
+    const provinces = recordToArray(data)
+    return createService<Province>(provinces, 'code')
+}
+
+const provinceService = createService<Province>(recordToArray(provinces), 'code')
 
 export function getAllProvinces(): Province[] {
     const key = 'provinces'
@@ -15,12 +21,12 @@ export function getAllProvinces(): Province[] {
     return provinces
 }
 
-export function getProvinceById(provinceId: number): Province | undefined {
-    const key = `province-${provinceId}`
+export function getProvinceByCode(code: ProvinceIndex): Province | undefined {
+    const key = `province-${code}`
     if (cache.has(key)) {
         return cache.get<Province>(key)!
     }
-    const province = provinceService.getById(provinceId)
+    const province = provinceService.getByCode(code)
     cache.set(key, province)
     return province
 }
