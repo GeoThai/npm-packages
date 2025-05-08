@@ -16,15 +16,11 @@
     "module": "dist/index.mjs",
     "types": "dist/index.d.ts",
     "keywords": [
-        "geodata",
         "thailand",
-        "gis",
-        "mapping",
         "provinces",
         "districts",
         "subdistricts",
-        "location-data",
-        "geo-thailand"
+        "geothai"
     ],
     "scripts": {
         "build": "tsup",
