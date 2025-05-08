@@ -1,5 +1,13 @@
 # GeoThai NPM Packages Changelog
 
+## 2.0.1
+
+### Patch Changes
+
+[chore: update .npmignore to replace pnpm-lock.yaml with bun.lock and ignore all source files](https://github.com/GeoThai/npm-packages/commit/dd9dad6b86cd263eb3b8f2be0c5d99dd79f89b20)
+
+**Full Changelog**: https://github.com/GeoThai/npm-packages/compare/v2.0.0...v2.0.1
+
 ## 2.0.0 - 2025-05-08
 
 ### Minor Changes
