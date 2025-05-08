@@ -30,13 +30,3 @@ export function getPostalCode(code: PostalCodeIndex): PostalCode | undefined {
     cache.set(key, postalCode)
     return postalCode
 }
-
-export function getPostalCodesByCriterion(criterion: Partial<PostalCode>): PostalCode[] {
-    const key = `postal-codes-${JSON.stringify(criterion)}`
-    if (cache.has(key)) {
-        return cache.get<PostalCode[]>(key)!
-    }
-    const postalCodes = postalCodeService.getByCriterion(criterion)
-    cache.set(key, postalCodes)
-    return postalCodes
-}
