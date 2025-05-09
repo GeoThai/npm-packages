@@ -6,7 +6,7 @@ If you discover a security vulnerability in the **GeoThai** npm package, please 
 
 1. **Do Not Open Public Issues**: Please do not disclose security vulnerabilities publicly, as this can put users at risk. Instead, report vulnerabilities privately.
 
-2. **Email Us Directly**: Send a detailed report to [contact@fasu.dev](mailto:contact@fasu.dev). Include the following information:
+2. **Email Us Directly**: Send a detailed report to [geothai@fasu.dev](mailto:geothai@fasu.dev). Include the following information:
 
     - A description of the vulnerability.
     - Steps to reproduce the issue.
@@ -45,6 +45,6 @@ For more information on security practices and responsible disclosure, you may r
 
 ## Contact
 
-If you have any questions or need further assistance regarding security, please reach out to us at [contact@fasu.dev](mailto:contact@fasu.dev).
+If you have any questions or need further assistance regarding security, please reach out to us at [geothai@fasu.dev](mailto:geothai@fasu.dev).
 
 Thank you for helping us keep **GeoThai** secure. Your vigilance and cooperation are greatly appreciated. 🙏

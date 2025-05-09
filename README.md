@@ -66,6 +66,6 @@ This project is licensed under the [MIT License](LICENSE). See the LICENSE file 
 
 ## 🙋‍♂️ Contact
 
-For any questions or support, please open an issue or contact us at [contact@fasu.dev](mailto:contact@fasu.dev).
+For any questions or support, please open an issue or contact us at [geothai@fasu.dev](mailto:geothai@fasu.dev).
 
 Happy coding! 🎉
