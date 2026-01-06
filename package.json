@@ -1,60 +1,86 @@
 {
-    "name": "geothai",
-    "version": "2.0.1",
-    "description": "An npm package for Node.js to access detailed geographic data on Thailand, including provinces, districts, subdistricts, and postal code. 🌟",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/GeoThai/npm-packages.git"
-    },
-    "homepage": "https://github.com/GeoThai/npm-packages#readme",
-    "bugs": {
-        "url": "https://github.com/GeoThai/npm-packages/issues"
-    },
-    "author": "GeoThai Team",
-    "license": "MIT",
-    "main": "dist/index.js",
-    "module": "dist/index.mjs",
-    "types": "dist/index.d.ts",
-    "keywords": [
-        "thailand",
-        "provinces",
-        "districts",
-        "subdistricts",
-        "geothai"
-    ],
-    "scripts": {
-        "build": "tsup",
-        "format": "prettier --write --list-different . --cache",
-        "knip": "knip",
-        "knip:fix": "knip --fix",
-        "lint": "eslint src",
-        "lint:fix": "eslint src --fix",
-        "prepare": "husky",
-        "publish:local": "yalc publish",
-        "publish:npm": "changeset publish",
-        "test": "vitest run",
-        "typecheck": "tsc --noEmit"
-    },
-    "devDependencies": {
-        "@changesets/cli": "^2.29.3",
-        "@commitlint/cli": "^19.8.0",
-        "@commitlint/config-conventional": "^19.8.0",
-        "@eslint/js": "^9.26.0",
-        "@ianvs/prettier-plugin-sort-imports": "^4.4.1",
-        "@total-typescript/tsconfig": "^1.0.4",
-        "@types/node": "^22.15.14",
-        "eslint": "^9.26.0",
-        "eslint-plugin-prettier": "^5.4.0",
-        "globals": "^15.15.0",
-        "husky": "^9.1.7",
-        "knip": "^5.55.0",
-        "lint-staged": "^15.5.2",
-        "prettier": "^3.5.3",
-        "prettier-plugin-pkg": "^0.18.1",
-        "tsup": "^8.4.0",
-        "typescript": "^5.8.3",
-        "typescript-eslint": "^8.32.0",
-        "vitest": "^2.1.9",
-        "yalc": "1.0.0-pre.53"
+  "name": "geothai",
+  "version": "2.0.1",
+  "type": "module",
+  "description": "An npm package for Node.js to access detailed geographic data on Thailand, including provinces, districts, subdistricts, and postal code.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoThai/npm-packages.git"
+  },
+  "homepage": "https://github.com/GeoThai/npm-packages#readme",
+  "bugs": {
+    "url": "https://github.com/GeoThai/npm-packages/issues"
+  },
+  "author": "GeoThai Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.mts",
+  "module": "./dist/index.mjs",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
     }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "thailand",
+    "provinces",
+    "districts",
+    "subdistricts",
+    "geothai",
+    "postal-code",
+    "geography"
+  ],
+  "scripts": {
+    "build": "tsdown",
+    "changeset": "changeset",
+    "dev": "tsdown --watch",
+    "format": "biome format --write . && prettier --write package.json",
+    "knip": "knip",
+    "lint": "biome check . && eslint",
+    "lint:fix": "biome check --write . && eslint --fix",
+    "prepare": "lefthook install",
+    "release": "changeset publish",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.3.11",
+    "@changesets/cli": "^2.29.8",
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
+    "@commitlint/types": "^20.2.0",
+    "@eslint/js": "^9.39.2",
+    "@vitest/coverage-v8": "^4.0.16",
+    "eslint": "^9.39.2",
+    "eslint-plugin-jsdoc": "^61.5.0",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "globals": "^17.0.0",
+    "jiti": "^2.6.1",
+    "knip": "^5.79.0",
+    "lefthook": "^2.0.13",
+    "markdownlint-cli2": "^0.20.0",
+    "prettier": "^3.7.4",
+    "prettier-plugin-pkg": "^0.21.2",
+    "tsdown": "^0.19.0-beta.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.51.0",
+    "vitest": "^4.0.16"
+  }
 }

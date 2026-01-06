@@ -1,3 +1,0 @@
-{
-    "**/*.(md|json)": "bun run prettier --write"
-}

@@ -1,5 +1,5 @@
 {
-    "$schema": "https://unpkg.com/knip@5/schema.json",
-    "entry": ["src/index.ts", "src/**/*.ts"],
-    "project": ["src/**/*.ts"]
+  "$schema": "./node_modules/knip/schema.json",
+  "project": ["src/**/*.ts"],
+  "ignore": ["dist/**"]
 }
