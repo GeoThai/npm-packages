@@ -1,20 +1,20 @@
-import districts from "../data/data/v3/districts.json";
-import type { District, DistrictIndex } from "../types";
+import geoData from "../data/data/v4/geo.json";
+import type { District, DistrictIndex, Province } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
-import { recordToArray } from "../utils/record-to-array";
 
-export const createDistrictService = (
-  data: Record<DistrictIndex, District>,
-) => {
-  const districts = recordToArray(data);
-  return createService<District>(districts, "code");
+const provinces = geoData as Province[];
+
+// Flatten all districts from all provinces
+const districts: District[] = provinces.flatMap(
+  (province) => province.districts,
+);
+
+export const createDistrictService = (data: District[]) => {
+  return createService<District>(data, "code");
 };
 
-const districtService = createService<District>(
-  recordToArray(districts),
-  "code",
-);
+const districtService = createService<District>(districts, "code");
 
 /**
  * Retrieves all districts from the database.
@@ -27,9 +27,9 @@ export function getAllDistricts(): District[] {
   if (cached) {
     return cached;
   }
-  const districts = districtService.getAll();
-  cache.set<District[]>(key, districts);
-  return districts;
+  const allDistricts = districtService.getAll();
+  cache.set<District[]>(key, allDistricts);
+  return allDistricts;
 }
 
 /**
@@ -63,7 +63,7 @@ export function getDistrictsByCriterion(
   if (cached) {
     return cached;
   }
-  const districts = districtService.getByCriterion(criterion);
-  cache.set(key, districts);
-  return districts;
+  const matchedDistricts = districtService.getByCriterion(criterion);
+  cache.set(key, matchedDistricts);
+  return matchedDistricts;
 }

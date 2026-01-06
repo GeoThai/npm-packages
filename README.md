@@ -41,19 +41,23 @@ npm install geothai
 Here’s a quick guide on how to use the package:
 
 ```typescript
-import { getAllProvinces, getProvinceByCode, getProvincesByCriterion } from 'geothai'
+import {
+  getAllProvinces,
+  getProvinceByCode,
+  getProvincesByCriterion,
+} from "geothai";
 
 // Retrieve all provinces
-const provinces = getAllProvinces()
-console.log(provinces)
+const provinces = getAllProvinces();
+console.log(provinces);
 
 // Retrieve a single province by code (with auto-completion)
-const province = getProvinceByCode('10')
-console.log(province)
+const province = getProvinceByCode("10");
+console.log(province);
 
 // Retrieve provinces by a specific criterion
-const filteredProvinces = getProvincesByCriterion({ name_th: 'กรุงเทพมหานคร' })
-console.log(filteredProvinces)
+const filteredProvinces = getProvincesByCriterion({ name_th: "กรุงเทพมหานคร" });
+console.log(filteredProvinces);
 ```
 
 ## 🤝 Contributing

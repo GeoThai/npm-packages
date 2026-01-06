@@ -1,20 +1,15 @@
-import provinces from "../data/data/v3/provinces.json";
+import geoData from "../data/data/v4/geo.json";
 import type { Province, ProvinceIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
-import { recordToArray } from "../utils/record-to-array";
 
-export const createProvinceService = (
-  data: Record<ProvinceIndex, Province>,
-) => {
-  const provinces = recordToArray(data);
-  return createService<Province>(provinces, "code");
+const provinces = geoData as Province[];
+
+export const createProvinceService = (data: Province[]) => {
+  return createService<Province>(data, "code");
 };
 
-const provinceService = createService<Province>(
-  recordToArray(provinces),
-  "code",
-);
+const provinceService = createService<Province>(provinces, "code");
 
 /**
  * Retrieves all provinces from the database.
@@ -27,9 +22,9 @@ export function getAllProvinces(): Province[] {
   if (cached) {
     return cached;
   }
-  const provinces = provinceService.getAll();
-  cache.set<Province[]>(key, provinces);
-  return provinces;
+  const allProvinces = provinceService.getAll();
+  cache.set<Province[]>(key, allProvinces);
+  return allProvinces;
 }
 
 /**
@@ -63,7 +58,10 @@ export function getProvincesByCriterion(
   if (cached) {
     return cached;
   }
-  const provinces = provinceService.getByCriterion(criterion);
-  cache.set(key, provinces);
-  return provinces;
+  const matchedProvinces = provinceService.getByCriterion(criterion);
+  cache.set(key, matchedProvinces);
+  return matchedProvinces;
 }
+
+// Export the raw data for other services
+export { provinces as rawProvinces };

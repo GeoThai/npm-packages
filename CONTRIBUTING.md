@@ -8,39 +8,38 @@ Thank you for your interest in contributing to the **GeoThai** project! 🌟 We 
 
 2. **Clone Your Fork**: Clone the repository to your local machine:
 
-    ```bash
-    git clone https://github.com/your-username/npm-packages.git
-    ```
+   ```bash
+   git clone https://github.com/your-username/npm-packages.git
+   ```
 
 3. **Install Dependencies**: Navigate to the project directory and install the necessary dependencies:
 
-    ```bash
-    cd npm-packages
-    npm install
-    ```
+   ```bash
+   cd npm-packages
+   npm install
+   ```
 
 4. **Create a Branch**: Create a new branch for your changes:
-    ```bash
-    git checkout -b my-feature-branch
-    ```
+   ```bash
+   git checkout -b my-feature-branch
+   ```
 
 ## Making Changes
 
 1. **Write Clear and Descriptive Commit Messages**: When making changes, ensure your commit messages are descriptive and follow the conventional format:
-
-    - `fix: description of the fix`
-    - `feat: description of the new feature`
-    - `docs: updates to documentation`
-    - `style: formatting changes`
-    - `refactor: code refactoring`
+   - `fix: description of the fix`
+   - `feat: description of the new feature`
+   - `docs: updates to documentation`
+   - `style: formatting changes`
+   - `refactor: code refactoring`
 
 2. **Add Tests**: If you are adding new features or fixing bugs, please add relevant tests to ensure the quality and stability of the code. Place tests in the `test` directory and follow the existing testing practices.
 
 3. **Run Tests**: Before submitting your changes, make sure all tests pass:
 
-    ```bash
-    npm test
-    ```
+   ```bash
+   npm test
+   ```
 
 4. **Update Documentation**: If your changes impact the usage or functionality of the package, update the `README.md` and any relevant documentation.
 
@@ -48,9 +47,9 @@ Thank you for your interest in contributing to the **GeoThai** project! 🌟 We 
 
 1. **Push Your Changes**: Push your changes to your forked repository:
 
-    ```bash
-    git push origin my-feature-branch
-    ```
+   ```bash
+   git push origin my-feature-branch
+   ```
 
 2. **Create a Pull Request**: Go to the [GeoThai npm package repository](https://github.com/GeoThai/npm-packages) and create a pull request (PR) from your branch. Provide a clear description of the changes and reference any related issues.
 

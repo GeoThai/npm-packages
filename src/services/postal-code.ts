@@ -1,20 +1,16 @@
-import postal_codes from "../data/data/v3/postal_codes.json";
+import postalLookup from "../data/data/v4/postal_lookup.json";
 import type { PostalCode, PostalCodeIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
 import { recordToArray } from "../utils/record-to-array";
 
-export const createPostalCodeService = (
-  data: Record<PostalCodeIndex, PostalCode>,
-) => {
-  const postalCodes = recordToArray(data);
-  return createService<PostalCode>(postalCodes, "code");
+const postalCodes = recordToArray(postalLookup as Record<string, PostalCode>);
+
+export const createPostalCodeService = (data: PostalCode[]) => {
+  return createService<PostalCode>(data, "postal_code");
 };
 
-const postalCodeService = createService<PostalCode>(
-  recordToArray(postal_codes),
-  "code",
-);
+const postalCodeService = createService<PostalCode>(postalCodes, "postal_code");
 
 /**
  * Retrieves all postal codes from the database.
@@ -27,9 +23,9 @@ export function getAllPostalCodes(): PostalCode[] {
   if (cached) {
     return cached;
   }
-  const postalCodes = postalCodeService.getAll();
-  cache.set<PostalCode[]>(key, postalCodes);
-  return postalCodes;
+  const allPostalCodes = postalCodeService.getAll();
+  cache.set<PostalCode[]>(key, allPostalCodes);
+  return allPostalCodes;
 }
 
 /**

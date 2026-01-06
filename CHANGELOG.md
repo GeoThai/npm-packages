@@ -6,7 +6,7 @@
 
 [chore: update .npmignore to replace pnpm-lock.yaml with bun.lock and ignore all source files](https://github.com/GeoThai/npm-packages/commit/dd9dad6b86cd263eb3b8f2be0c5d99dd79f89b20)
 
-**Full Changelog**: https://github.com/GeoThai/npm-packages/compare/v2.0.0...v2.0.1
+**Full Changelog**: <https://github.com/GeoThai/npm-packages/compare/v2.0.0...v2.0.1>
 
 ## 2.0.0 - 2025-05-08
 
@@ -14,10 +14,9 @@
 
 - **BREAKING CHANGE**: Updated the data structure for provinces, districts, subdistricts, and postal codes. The internal JSON format has changed, which impacts the shape of the exported types.
 - **Type Changes**: The following functions now expect different type shapes for their input and output due to the updated data definitions:
-
-    - `getProvincesByCriterion(criterion: Partial<Province>)`
-    - `getDistrictsByCriterion(criterion: Partial<District>)`
-    - `getSubdistrictsByCriterion(criterion: Partial<Subdistrict>)`
+  - `getProvincesByCriterion(criterion: Partial<Province>)`
+  - `getDistrictsByCriterion(criterion: Partial<District>)`
+  - `getSubdistrictsByCriterion(criterion: Partial<Subdistrict>)`
 
     > [!WARNING]
     > While function names and signatures remain the same, the change in data types can result in **TypeScript compilation errors** or runtime issues if existing code assumes the old structure.
@@ -32,15 +31,15 @@
 - **Metadata**: Introduced `src/data/metadata.json` to provide detailed information about data versioning and statistics.
 - **Postal Code Service**: Added new service `src/services/postal-code.ts` to handle postal code data, including retrieval functions.
 - **New Type Definitions**: Added new TypeScript types for metadata and postal codes:
-    - `src/types/Metadata.ts`
-    - `src/types/PostalCode.ts`
+  - `src/types/Metadata.ts`
+  - `src/types/PostalCode.ts`
 
 ### Changed
 
 - **Data Files**: Updated data files for provinces, districts, and subdistricts to reflect the new integrated structure and added postal code data.
 - **Service Implementations**: Refactored existing services (`province.ts`, `district.ts`, `subdistrict.ts`) to accommodate the new data structure:
-    - Updated identifiers from `province_id`, `district_id`, `subdistrict_id` to `id`.
-    - Adjusted data retrieval logic to work with the new nested data format.
+  - Updated identifiers from `province_id`, `district_id`, `subdistrict_id` to `id`.
+  - Adjusted data retrieval logic to work with the new nested data format.
 - **Index and Exports**: Updated `src/index.ts` to include the new postal code service and metadata.
 - **Test Updates**: Revised tests to match the updated data structure and identifiers. Added new tests for postal codes and metadata.
 
@@ -77,19 +76,19 @@
 #### Added
 
 - **New Services**: Split functionality into modular services:
-    - `src/services/province.ts`: Handles all province-related operations.
-    - `src/services/district.ts`: Handles all district-related operations.
-    - `src/services/subdistrict.ts`: Handles all subdistrict-related operations.
+  - `src/services/province.ts`: Handles all province-related operations.
+  - `src/services/district.ts`: Handles all district-related operations.
+  - `src/services/subdistrict.ts`: Handles all subdistrict-related operations.
 - **Utility Function**: Added `src/utils/criteria-matcher.ts` for consistent criteria-based filtering across services.
 
 #### Changed
 
 - **Code Refactoring**:
-    - Moved logic from `src/index.ts` to the new service modules.
-    - Simplified `index.ts` by re-exporting the services and utilities.
+  - Moved logic from `src/index.ts` to the new service modules.
+  - Simplified `index.ts` by re-exporting the services and utilities.
 - **Test Structure**:
-    - Removed outdated tests (`tests/index.test.ts`).
-    - Introduced new tests for individual services (`tests/district.test.ts`, `tests/province.test.ts`, `tests/subdistrict.test.ts`).
+  - Removed outdated tests (`tests/index.test.ts`).
+  - Introduced new tests for individual services (`tests/district.test.ts`, `tests/province.test.ts`, `tests/subdistrict.test.ts`).
 
 #### Removed
 
@@ -121,13 +120,13 @@
 - **Data Integration**: Imported and initialized data for provinces, districts, and subdistricts from JSON files.
 - **Data Storage**: Created `Map` objects to efficiently store and access provinces, districts, and subdistricts by their IDs.
 - **APIs Implemented**:
-    - `getAllProvinces()`: Retrieves all provinces.
-    - `getProvinceById(provinceId: number)`: Retrieves a single province by its ID.
-    - `getAllDistricts()`: Retrieves all districts.
-    - `getDistrictById(districtId: number)`: Retrieves a single district by its ID.
-    - `getAllSubdistricts()`: Retrieves all subdistricts.
-    - `getSubdistrictById(subdistrictId: number)`: Retrieves a single subdistrict by its ID.
-    - `getProvincesByCriterion(criterion: Partial<Province>)`: Retrieves provinces matching a specific criterion.
-    - `getDistrictsByCriterion(criterion: Partial<District>)`: Retrieves districts matching a specific criterion.
-    - `getSubdistrictsByCriterion(criterion: Partial<Subdistrict>)`: Retrieves subdistricts matching a specific criterion.
+  - `getAllProvinces()`: Retrieves all provinces.
+  - `getProvinceById(provinceId: number)`: Retrieves a single province by its ID.
+  - `getAllDistricts()`: Retrieves all districts.
+  - `getDistrictById(districtId: number)`: Retrieves a single district by its ID.
+  - `getAllSubdistricts()`: Retrieves all subdistricts.
+  - `getSubdistrictById(subdistrictId: number)`: Retrieves a single subdistrict by its ID.
+  - `getProvincesByCriterion(criterion: Partial<Province>)`: Retrieves provinces matching a specific criterion.
+  - `getDistrictsByCriterion(criterion: Partial<District>)`: Retrieves districts matching a specific criterion.
+  - `getSubdistrictsByCriterion(criterion: Partial<Subdistrict>)`: Retrieves subdistricts matching a specific criterion.
 - **Type Definitions**: Utilized TypeScript types for provinces, districts, and subdistricts for better type safety and code clarity.

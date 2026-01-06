@@ -1,9 +1,13 @@
+import type { Subdistrict } from "./Subdistrict";
+
 export type District = {
   code: number;
   name_en: string;
   name_th: string;
+  name_en_lower: string;
+  name_th_lower: string;
   province_code: number;
-  subdistricts: Array<number>;
+  subdistricts: Subdistrict[];
 };
 
 export type DistrictIndex =

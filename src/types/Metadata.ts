@@ -8,4 +8,6 @@ export type Metadata = {
     subdistricts: number;
     postal_codes: number;
   };
+  description: string;
+  features: string[];
 };

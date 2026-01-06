@@ -1,6 +1,18 @@
+export type PostalCodeAddress = {
+  province_code: number;
+  province_name_en: string;
+  province_name_th: string;
+  district_code: number;
+  district_name_en: string;
+  district_name_th: string;
+  subdistrict_code: number;
+  subdistrict_name_en: string;
+  subdistrict_name_th: string;
+};
+
 export type PostalCode = {
-  code: number;
-  subdistricts: Array<number>;
+  postal_code: number;
+  addresses: PostalCodeAddress[];
 };
 
 export type PostalCodeIndex =

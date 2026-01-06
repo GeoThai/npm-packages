@@ -1,8 +1,12 @@
+import type { District } from "./District";
+
 export type Province = {
   code: number;
   name_en: string;
   name_th: string;
-  districts: Array<number>;
+  name_en_lower: string;
+  name_th_lower: string;
+  districts: District[];
 };
 
 export type ProvinceIndex =

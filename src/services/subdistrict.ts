@@ -1,20 +1,20 @@
-import subdistricts from "../data/data/v3/subdistricts.json";
-import type { Subdistrict, SubdistrictIndex } from "../types";
+import geoData from "../data/data/v4/geo.json";
+import type { Province, Subdistrict, SubdistrictIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
-import { recordToArray } from "../utils/record-to-array";
 
-export const createSubdistrictService = (
-  data: Record<SubdistrictIndex, Subdistrict>,
-) => {
-  const subdistricts = recordToArray(data);
-  return createService<Subdistrict>(subdistricts, "code");
+const provinces = geoData as Province[];
+
+// Flatten all subdistricts from all districts from all provinces
+const subdistricts: Subdistrict[] = provinces.flatMap((province) =>
+  province.districts.flatMap((district) => district.subdistricts),
+);
+
+export const createSubdistrictService = (data: Subdistrict[]) => {
+  return createService<Subdistrict>(data, "code");
 };
 
-const subdistrictService = createService<Subdistrict>(
-  recordToArray(subdistricts),
-  "code",
-);
+const subdistrictService = createService<Subdistrict>(subdistricts, "code");
 
 /**
  * Retrieves all subdistricts from the database.
@@ -27,9 +27,9 @@ export function getAllSubdistricts(): Subdistrict[] {
   if (cached) {
     return cached;
   }
-  const subdistricts = subdistrictService.getAll();
-  cache.set<Subdistrict[]>(key, subdistricts);
-  return subdistricts;
+  const allSubdistricts = subdistrictService.getAll();
+  cache.set<Subdistrict[]>(key, allSubdistricts);
+  return allSubdistricts;
 }
 
 /**
@@ -65,7 +65,7 @@ export function getSubdistrictsByCriterion(
   if (cached) {
     return cached;
   }
-  const subdistricts = subdistrictService.getByCriterion(criterion);
-  cache.set(key, subdistricts);
-  return subdistricts;
+  const matchedSubdistricts = subdistrictService.getByCriterion(criterion);
+  cache.set(key, matchedSubdistricts);
+  return matchedSubdistricts;
 }

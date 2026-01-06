@@ -12,7 +12,9 @@ describe("PostalCode Service", () => {
     const code = "10200";
     const postalCode = getPostalCode(code);
     expect(postalCode).toBeDefined();
-    expect(postalCode?.code).toBe(Number(code));
+    expect(postalCode?.postal_code).toBe(Number(code));
+    expect(postalCode?.addresses).toBeInstanceOf(Array);
+    expect(postalCode?.addresses.length).toBeGreaterThan(0);
   });
 
   test("should return undefined for an invalid code", () => {

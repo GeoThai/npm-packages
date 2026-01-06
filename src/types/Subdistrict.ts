@@ -2,6 +2,8 @@ export type Subdistrict = {
   code: number;
   name_en: string;
   name_th: string;
+  name_en_lower: string;
+  name_th_lower: string;
   district_code: number;
   province_code: number;
   postal_code: number;

@@ -50,10 +50,11 @@
     "geography"
   ],
   "scripts": {
-    "build": "tsdown",
+    "build": "bun run generate:types && tsdown",
     "changeset": "changeset",
     "dev": "tsdown --watch",
     "format": "biome format --write . && prettier --write package.json",
+    "generate:types": "bun run scripts/generate-types.ts",
     "knip": "knip",
     "lint": "biome check . && eslint",
     "lint:fix": "biome check --write . && eslint --fix",
