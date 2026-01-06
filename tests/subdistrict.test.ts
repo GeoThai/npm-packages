@@ -4,7 +4,7 @@ import {
   getSubdistrictByCode,
   getSubdistrictsByCriterion,
   type Subdistrict,
-} from "../dist";
+} from "../src";
 
 describe("Subdistrict Service", () => {
   test("should retrieve all subdistricts", () => {
@@ -22,6 +22,7 @@ describe("Subdistrict Service", () => {
 
   test("should return undefined for an invalid subdistrict ID", () => {
     const invalidCode = "99999";
+    // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
     const subdistrict = getSubdistrictByCode(invalidCode);
     expect(subdistrict).toBeUndefined();
   });

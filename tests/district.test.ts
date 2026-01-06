@@ -4,7 +4,7 @@ import {
   getAllDistricts,
   getDistrictByCode,
   getDistrictsByCriterion,
-} from "../dist";
+} from "../src";
 
 describe("District Service", () => {
   test("should retrieve all districts", () => {
@@ -22,6 +22,7 @@ describe("District Service", () => {
 
   test("should return undefined for an invalid district code", () => {
     const invalidCode = "99999";
+    // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
     const district = getDistrictByCode(invalidCode);
     expect(district).toBeUndefined();
   });

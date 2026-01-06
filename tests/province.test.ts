@@ -4,7 +4,7 @@ import {
   getProvinceByCode,
   getProvincesByCriterion,
   type Province,
-} from "../dist";
+} from "../src";
 
 describe("Province Service", () => {
   test("should retrieve all provinces", () => {
@@ -22,6 +22,7 @@ describe("Province Service", () => {
 
   test("should return undefined for an invalid province ID", () => {
     const invalidCode = "99999";
+    // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
     const province = getProvinceByCode(invalidCode);
     expect(province).toBeUndefined();
   });

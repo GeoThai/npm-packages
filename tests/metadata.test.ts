@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { metadata } from "../dist";
+import { metadata } from "../src";
 import metaData from "../src/data/metadata.json";
 
 describe("Metadata", () => {
