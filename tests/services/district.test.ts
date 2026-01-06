@@ -4,7 +4,7 @@ import {
   getAllDistricts,
   getDistrictByCode,
   getDistrictsByCriterion,
-} from "../src";
+} from "../../src";
 
 describe("District Service", () => {
   test("should retrieve all districts", () => {

@@ -4,7 +4,7 @@ import {
   getProvinceByCode,
   getProvincesByCriterion,
   type Province,
-} from "../src";
+} from "../../src";
 
 describe("Province Service", () => {
   test("should retrieve all provinces", () => {

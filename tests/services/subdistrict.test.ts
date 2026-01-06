@@ -4,7 +4,7 @@ import {
   getSubdistrictByCode,
   getSubdistrictsByCriterion,
   type Subdistrict,
-} from "../src";
+} from "../../src";
 
 describe("Subdistrict Service", () => {
   test("should retrieve all subdistricts", () => {

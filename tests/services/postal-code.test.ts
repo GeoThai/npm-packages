@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getAllPostalCodes, getPostalCode } from "../src";
+import { getAllPostalCodes, getPostalCode } from "../../src";
 
 describe("PostalCode Service", () => {
   test("should retrieve all postal codes", () => {
