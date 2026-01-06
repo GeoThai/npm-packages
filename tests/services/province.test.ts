@@ -11,6 +11,10 @@ describe("Province Service", () => {
     const provinces = getAllProvinces();
     expect(provinces).toBeInstanceOf(Array);
     expect(provinces.length).toBeGreaterThan(0);
+
+    // Call again to test cache hit
+    const cachedProvinces = getAllProvinces();
+    expect(cachedProvinces).toBe(provinces);
   });
 
   test("should retrieve a province by ID", () => {
@@ -18,6 +22,10 @@ describe("Province Service", () => {
     const province = getProvinceByCode(code);
     expect(province).toBeDefined();
     expect(province?.code).toBe(Number(code));
+
+    // Call again to test cache hit
+    const cachedProvince = getProvinceByCode(code);
+    expect(cachedProvince).toBe(province);
   });
 
   test("should return undefined for an invalid province ID", () => {
@@ -33,6 +41,10 @@ describe("Province Service", () => {
     expect(provinces).toBeInstanceOf(Array);
     expect(provinces.length).toBeGreaterThan(0);
     expect(provinces[0]?.name_en).toBe("Bangkok");
+
+    // Call again to test cache hit
+    const cachedProvinces = getProvincesByCriterion(criterion);
+    expect(cachedProvinces).toBe(provinces);
   });
 
   test("should return an empty array for a non-matching criterion", () => {

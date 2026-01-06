@@ -11,6 +11,10 @@ describe("District Service", () => {
     const districts = getAllDistricts();
     expect(districts).toBeInstanceOf(Array);
     expect(districts.length).toBeGreaterThan(0);
+
+    // Test cache hit
+    const cachedDistricts = getAllDistricts();
+    expect(cachedDistricts).toBe(districts);
   });
 
   test("should retrieve a district by code", () => {
@@ -18,6 +22,10 @@ describe("District Service", () => {
     const district = getDistrictByCode(code);
     expect(district).toBeDefined();
     expect(district?.code).toBe(Number(code));
+
+    // Test cache hit
+    const cachedDistrict = getDistrictByCode(code);
+    expect(cachedDistrict).toBe(district);
   });
 
   test("should return undefined for an invalid district code", () => {
@@ -33,6 +41,10 @@ describe("District Service", () => {
     expect(districts).toBeInstanceOf(Array);
     expect(districts.length).toBeGreaterThan(0);
     expect(districts[0]?.name_en).toBe("Phra Nakhon");
+
+    // Test cache hit
+    const cachedDistricts = getDistrictsByCriterion(criterion);
+    expect(cachedDistricts).toBe(districts);
   });
 
   test("should return an empty array for a non-matching criterion", () => {

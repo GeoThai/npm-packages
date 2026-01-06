@@ -6,6 +6,10 @@ describe("PostalCode Service", () => {
     const postalCodes = getAllPostalCodes();
     expect(postalCodes).toBeInstanceOf(Array);
     expect(postalCodes.length).toBeGreaterThan(0);
+
+    // Test cache hit
+    const cachedPostalCodes = getAllPostalCodes();
+    expect(cachedPostalCodes).toBe(postalCodes);
   });
 
   test("should retrieve a postal code by code", () => {
@@ -15,6 +19,10 @@ describe("PostalCode Service", () => {
     expect(postalCode?.postal_code).toBe(Number(code));
     expect(postalCode?.addresses).toBeInstanceOf(Array);
     expect(postalCode?.addresses.length).toBeGreaterThan(0);
+
+    // Test cache hit
+    const cachedPostalCode = getPostalCode(code);
+    expect(cachedPostalCode).toBe(postalCode);
   });
 
   test("should return undefined for an invalid code", () => {

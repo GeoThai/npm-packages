@@ -11,6 +11,10 @@ describe("Subdistrict Service", () => {
     const subdistricts = getAllSubdistricts();
     expect(subdistricts).toBeInstanceOf(Array);
     expect(subdistricts.length).toBeGreaterThan(0);
+
+    // Test cache hit
+    const cachedSubdistricts = getAllSubdistricts();
+    expect(cachedSubdistricts).toBe(subdistricts);
   });
 
   test("should retrieve a subdistrict by ID", () => {
@@ -18,6 +22,10 @@ describe("Subdistrict Service", () => {
     const subdistrict = getSubdistrictByCode(code);
     expect(subdistrict).toBeDefined();
     expect(subdistrict?.code).toBe(Number(code));
+
+    // Test cache hit
+    const cachedSubdistrict = getSubdistrictByCode(code);
+    expect(cachedSubdistrict).toBe(subdistrict);
   });
 
   test("should return undefined for an invalid subdistrict ID", () => {
@@ -35,6 +43,10 @@ describe("Subdistrict Service", () => {
     expect(subdistricts).toBeInstanceOf(Array);
     expect(subdistricts.length).toBeGreaterThan(0);
     expect(subdistricts[0]?.name_en).toBe("Phra Borom Maha Ratchawang");
+
+    // Test cache hit
+    const cachedSubdistricts = getSubdistrictsByCriterion(criterion);
+    expect(cachedSubdistricts).toBe(subdistricts);
   });
 
   test("should return an empty array for a non-matching criterion", () => {

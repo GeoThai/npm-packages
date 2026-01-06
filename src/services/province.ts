@@ -1,16 +1,11 @@
-import { existsSync, readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 import type { Province, ProvinceIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
+import { resolveDataPath } from "../utils/resolve-data-path";
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
-// Try production path first (dist/data), then development path (data/data/v4)
-const dataPath = join(__dirname, "../data/geo.json");
-const devPath = join(__dirname, "../../data/data/v4/geo.json");
 const provinces = JSON.parse(
-  readFileSync(existsSync(dataPath) ? dataPath : devPath, "utf-8"),
+  readFileSync(resolveDataPath("geo.json", import.meta.url), "utf-8"),
 ) as Province[];
 
 export const createProvinceService = (data: Province[]) => {
