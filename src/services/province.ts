@@ -1,4 +1,4 @@
-import provinces from "../data/provinces.json";
+import provinces from "../data/data/v3/provinces.json";
 import type { Province, ProvinceIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";

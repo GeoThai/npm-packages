@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { metadata } from "../../src";
-import metaData from "../../src/data/metadata.json";
+import metaData from "../../src/data/data/v3/metadata.json";
 
 describe("Metadata", () => {
   test("should match the expected metadata", () => {

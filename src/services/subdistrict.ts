@@ -1,4 +1,4 @@
-import subdistricts from "../data/subdistricts.json";
+import subdistricts from "../data/data/v3/subdistricts.json";
 import type { Subdistrict, SubdistrictIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";

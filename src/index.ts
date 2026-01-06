@@ -1,4 +1,4 @@
-import metaData from "./data/metadata.json";
+import metaData from "./data/data/v3/metadata.json";
 import type { Metadata } from "./types";
 
 export * from "./services/district";

@@ -62,7 +62,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "size:dist": "du -sh dist && du -h dist/* | sort -h"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.11",

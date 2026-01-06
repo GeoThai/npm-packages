@@ -1,4 +1,4 @@
-import districts from "../data/districts.json";
+import districts from "../data/data/v3/districts.json";
 import type { District, DistrictIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";

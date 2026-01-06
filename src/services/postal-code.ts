@@ -1,4 +1,4 @@
-import postal_codes from "../data/postal_codes.json";
+import postal_codes from "../data/data/v3/postal_codes.json";
 import type { PostalCode, PostalCodeIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
