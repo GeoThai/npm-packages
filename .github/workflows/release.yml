@@ -1,0 +1,100 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: oven-sh/setup-bun@b7a1c7ccf290d58743029c4f6903da283811b979 # v2.1.0
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Build
+        run: bun run build
+
+      - name: Check for changesets
+        id: changesets
+        run: |
+          if [ -n "$(ls -A .changeset/*.md 2>/dev/null | grep -v README.md)" ]; then
+            echo "has_changesets=true" >> $GITHUB_OUTPUT
+          else
+            echo "has_changesets=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Version packages
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: bunx changeset version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get version
+        if: steps.changesets.outputs.has_changesets == 'true'
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
+
+      - name: Commit and create PR
+        if: steps.changesets.outputs.has_changesets == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b changeset-release/main 2>/dev/null || git checkout changeset-release/main
+          git add -A
+          git commit -m "chore(release): v${{ steps.version.outputs.version }}" --no-verify
+          git push -f origin changeset-release/main
+
+          # Create or update PR
+          PR_EXISTS=$(gh pr list --head changeset-release/main --json number --jq '.[0].number')
+          if [ -n "$PR_EXISTS" ]; then
+            echo "PR #$PR_EXISTS already exists"
+          else
+            gh pr create \
+              --title "chore(release): v${{ steps.version.outputs.version }}" \
+              --body "This PR was opened by the release workflow. Merge it to publish v${{ steps.version.outputs.version }} to npm." \
+              --base main \
+              --head changeset-release/main
+          fi
+
+      - name: Configure npm
+        if: steps.changesets.outputs.has_changesets == 'false'
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - name: Publish to npm
+        if: steps.changesets.outputs.has_changesets == 'false'
+        id: publish
+        run: |
+          # Check if current version is already published
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          PACKAGE_NAME=$(node -p "require('./package.json').name")
+
+          PUBLISHED=$(npm view "$PACKAGE_NAME@$CURRENT_VERSION" version 2>/dev/null || echo "")
+
+          if [ -z "$PUBLISHED" ]; then
+            echo "Publishing $PACKAGE_NAME@$CURRENT_VERSION"
+            bun run release
+            echo "published=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version $CURRENT_VERSION already published, skipping"
+            echo "published=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Push tags
+        if: steps.publish.outputs.published == 'true'
+        run: git push --tags
