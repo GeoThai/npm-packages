@@ -1,27 +1,36 @@
 # GeoThai NPM Packages Changelog
 
-## 2.0.1
+## 2.0.1 - 2025-01-05
 
-### Patch Changes
+### Fixed
 
-[chore: update .npmignore to replace pnpm-lock.yaml with bun.lock and ignore all source files](https://github.com/GeoThai/npm-packages/commit/dd9dad6b86cd263eb3b8f2be0c5d99dd79f89b20)
+- Updated `.npmignore` to replace `pnpm-lock.yaml` with `bun.lock` and ignore
+  all source files for cleaner package distribution
 
 **Full Changelog**: <https://github.com/GeoThai/npm-packages/compare/v2.0.0...v2.0.1>
 
 ## 2.0.0 - 2025-05-08
 
-### Minor Changes
+### Changed
 
-- **BREAKING CHANGE**: Updated the data structure for provinces, districts, subdistricts, and postal codes. The internal JSON format has changed, which impacts the shape of the exported types.
-- **Type Changes**: The following functions now expect different type shapes for their input and output due to the updated data definitions:
+- **BREAKING:** Updated the data structure for provinces, districts,
+  subdistricts, and postal codes. The internal JSON format has changed, which
+  impacts the shape of the exported types.
+- **BREAKING:** The following functions now expect different type shapes for
+  their input and output due to the updated data definitions:
   - `getProvincesByCriterion(criterion: Partial<Province>)`
   - `getDistrictsByCriterion(criterion: Partial<District>)`
   - `getSubdistrictsByCriterion(criterion: Partial<Subdistrict>)`
 
-    > [!WARNING]
-    > While function names and signatures remain the same, the change in data types can result in **TypeScript compilation errors** or runtime issues if existing code assumes the old structure.
+> [!WARNING]
+> While function names and signatures remain the same, the change in data types
+> can result in **TypeScript compilation errors** or runtime issues if existing
+> code assumes the old structure.
 
-- **Refactor**: Services for provinces, districts, subdistricts, and postal codes have been updated to work with the new structure. This improves consistency and prepares for better scalability, but may require consumers to adjust their usage of types.
+- Services for provinces, districts, subdistricts, and postal codes have been
+  updated to work with the new structure. This improves consistency and
+  prepares for better scalability, but may require consumers to adjust their
+  usage of types.
 
 ## 1.0.0 - 2024-08-17
 
