@@ -22,7 +22,6 @@ describe("District Service", () => {
 
   test("should return undefined for an invalid district code", () => {
     const invalidCode = "99999";
-    // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
     const district = getDistrictByCode(invalidCode);
     expect(district).toBeUndefined();
   });
@@ -32,7 +31,7 @@ describe("District Service", () => {
     const districts = getDistrictsByCriterion(criterion);
     expect(districts).toBeInstanceOf(Array);
     expect(districts.length).toBeGreaterThan(0);
-    expect(districts[0]!.name_en).toBe("Phra Nakhon");
+    expect(districts[0]?.name_en).toBe("Phra Nakhon");
   });
 
   test("should return an empty array for a non-matching criterion", () => {

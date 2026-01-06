@@ -23,8 +23,9 @@ const subdistrictService = createService<Subdistrict>(
  */
 export function getAllSubdistricts(): Subdistrict[] {
   const key = "subdistricts";
-  if (cache.has(key)) {
-    return cache.get<Subdistrict[]>(key)!;
+  const cached = cache.get<Subdistrict[]>(key);
+  if (cached) {
+    return cached;
   }
   const subdistricts = subdistrictService.getAll();
   cache.set<Subdistrict[]>(key, subdistricts);
@@ -41,8 +42,9 @@ export function getSubdistrictByCode(
   code: SubdistrictIndex,
 ): Subdistrict | undefined {
   const key = `subdistrict-${code}`;
-  if (cache.has(key)) {
-    return cache.get<Subdistrict>(key)!;
+  const cached = cache.get<Subdistrict>(key);
+  if (cached) {
+    return cached;
   }
   const subdistrict = subdistrictService.getByCode(code);
   cache.set(key, subdistrict);
@@ -59,8 +61,9 @@ export function getSubdistrictsByCriterion(
   criterion: Partial<Subdistrict>,
 ): Subdistrict[] {
   const key = `subdistricts-${JSON.stringify(criterion)}`;
-  if (cache.has(key)) {
-    return cache.get<Subdistrict[]>(key)!;
+  const cached = cache.get<Subdistrict[]>(key);
+  if (cached) {
+    return cached;
   }
   const subdistricts = subdistrictService.getByCriterion(criterion);
   cache.set(key, subdistricts);

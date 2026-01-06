@@ -22,7 +22,6 @@ describe("Subdistrict Service", () => {
 
   test("should return undefined for an invalid subdistrict ID", () => {
     const invalidCode = "99999";
-    // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
     const subdistrict = getSubdistrictByCode(invalidCode);
     expect(subdistrict).toBeUndefined();
   });
@@ -34,7 +33,7 @@ describe("Subdistrict Service", () => {
     const subdistricts = getSubdistrictsByCriterion(criterion);
     expect(subdistricts).toBeInstanceOf(Array);
     expect(subdistricts.length).toBeGreaterThan(0);
-    expect(subdistricts[0]!.name_en).toBe("Phra Borom Maha Ratchawang");
+    expect(subdistricts[0]?.name_en).toBe("Phra Borom Maha Ratchawang");
   });
 
   test("should return an empty array for a non-matching criterion", () => {

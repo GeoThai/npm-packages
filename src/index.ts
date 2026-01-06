@@ -7,4 +7,5 @@ export * from "./services/province";
 export * from "./services/subdistrict";
 export * from "./types";
 export * from "./utils/criteria-matcher";
+
 export const metadata: Metadata = metaData;

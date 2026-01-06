@@ -8,8 +8,8 @@ class Cache {
   private defaultTTL: number = 60 * 60 * 1000; // 1 hour in milliseconds
 
   public has(key: string): boolean {
-    if (this.cacheMap.has(key)) {
-      const item = this.cacheMap.get(key)!;
+    const item = this.cacheMap.get(key);
+    if (item) {
       if (item.expiry && Date.now() > item.expiry) {
         this.cacheMap.delete(key);
         return false;
@@ -21,7 +21,7 @@ class Cache {
 
   public get<T>(key: string): T | undefined {
     if (this.has(key)) {
-      return this.cacheMap.get(key)!.value as T;
+      return this.cacheMap.get(key)?.value as T;
     }
     return undefined;
   }

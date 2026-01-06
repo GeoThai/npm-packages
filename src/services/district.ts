@@ -23,8 +23,9 @@ const districtService = createService<District>(
  */
 export function getAllDistricts(): District[] {
   const key = "districts";
-  if (cache.has(key)) {
-    return cache.get<District[]>(key)!;
+  const cached = cache.get<District[]>(key);
+  if (cached) {
+    return cached;
   }
   const districts = districtService.getAll();
   cache.set<District[]>(key, districts);
@@ -39,8 +40,9 @@ export function getAllDistricts(): District[] {
  */
 export function getDistrictByCode(code: DistrictIndex): District | undefined {
   const key = `district-${code}`;
-  if (cache.has(key)) {
-    return cache.get<District>(key)!;
+  const cached = cache.get<District>(key);
+  if (cached) {
+    return cached;
   }
   const district = districtService.getByCode(code);
   cache.set(key, district);
@@ -57,8 +59,9 @@ export function getDistrictsByCriterion(
   criterion: Partial<District>,
 ): District[] {
   const key = `districts-${JSON.stringify(criterion)}`;
-  if (cache.has(key)) {
-    return cache.get<District[]>(key)!;
+  const cached = cache.get<District[]>(key);
+  if (cached) {
+    return cached;
   }
   const districts = districtService.getByCriterion(criterion);
   cache.set(key, districts);

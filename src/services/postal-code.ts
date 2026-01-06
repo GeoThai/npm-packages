@@ -23,8 +23,9 @@ const postalCodeService = createService<PostalCode>(
  */
 export function getAllPostalCodes(): PostalCode[] {
   const key = "postal-codes";
-  if (cache.has(key)) {
-    return cache.get<PostalCode[]>(key)!;
+  const cached = cache.get<PostalCode[]>(key);
+  if (cached) {
+    return cached;
   }
   const postalCodes = postalCodeService.getAll();
   cache.set<PostalCode[]>(key, postalCodes);
@@ -39,8 +40,9 @@ export function getAllPostalCodes(): PostalCode[] {
  */
 export function getPostalCode(code: PostalCodeIndex): PostalCode | undefined {
   const key = `postal-codes-${code}`;
-  if (cache.has(key)) {
-    return cache.get<PostalCode>(key)!;
+  const cached = cache.get<PostalCode>(key);
+  if (cached) {
+    return cached;
   }
   const postalCode = postalCodeService.getByCode(code);
   cache.set(key, postalCode);

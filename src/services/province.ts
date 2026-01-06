@@ -23,8 +23,9 @@ const provinceService = createService<Province>(
  */
 export function getAllProvinces(): Province[] {
   const key = "provinces";
-  if (cache.has(key)) {
-    return cache.get<Province[]>(key)!;
+  const cached = cache.get<Province[]>(key);
+  if (cached) {
+    return cached;
   }
   const provinces = provinceService.getAll();
   cache.set<Province[]>(key, provinces);
@@ -39,8 +40,9 @@ export function getAllProvinces(): Province[] {
  */
 export function getProvinceByCode(code: ProvinceIndex): Province | undefined {
   const key = `province-${code}`;
-  if (cache.has(key)) {
-    return cache.get<Province>(key)!;
+  const cached = cache.get<Province>(key);
+  if (cached) {
+    return cached;
   }
   const province = provinceService.getByCode(code);
   cache.set(key, province);
@@ -57,8 +59,9 @@ export function getProvincesByCriterion(
   criterion: Partial<Province>,
 ): Province[] {
   const key = `provinces-${JSON.stringify(criterion)}`;
-  if (cache.has(key)) {
-    return cache.get<Province[]>(key)!;
+  const cached = cache.get<Province[]>(key);
+  if (cached) {
+    return cached;
   }
   const provinces = provinceService.getByCriterion(criterion);
   cache.set(key, provinces);

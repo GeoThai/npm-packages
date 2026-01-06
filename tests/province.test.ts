@@ -22,7 +22,6 @@ describe("Province Service", () => {
 
   test("should return undefined for an invalid province ID", () => {
     const invalidCode = "99999";
-    // @ts-expect-error eslint-disable-next-line @typescript-eslint/ban-ts-comment
     const province = getProvinceByCode(invalidCode);
     expect(province).toBeUndefined();
   });
@@ -32,7 +31,7 @@ describe("Province Service", () => {
     const provinces = getProvincesByCriterion(criterion);
     expect(provinces).toBeInstanceOf(Array);
     expect(provinces.length).toBeGreaterThan(0);
-    expect(provinces[0]!.name_en).toBe("Bangkok");
+    expect(provinces[0]?.name_en).toBe("Bangkok");
   });
 
   test("should return an empty array for a non-matching criterion", () => {
