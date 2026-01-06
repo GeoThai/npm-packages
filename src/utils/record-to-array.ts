@@ -1,9 +1,11 @@
 /**
+ * Converts a record object to an array of its values.
  *
- * @param districtJson
+ * @param record - The record object to convert
+ * @returns An array containing all values from the record
  */
 export function recordToArray<K extends string | number | symbol, T>(
-  districtJson: Record<K, T>,
+  record: Record<K, T>,
 ): T[] {
-  return Object.values(districtJson);
+  return Object.values(record);
 }

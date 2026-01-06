@@ -1,9 +1,11 @@
 import { matchCriteria } from "./criteria-matcher";
 
 /**
+ * Creates a service for managing and querying a collection of data items.
  *
- * @param data
- * @param idKey
+ * @param data - The array of data items to manage
+ * @param idKey - The key to use as the unique identifier for each item
+ * @returns An object with methods to query the data collection
  */
 export function createService<T>(data: T[], idKey: keyof T) {
   const dataMap = new Map<number, T>(

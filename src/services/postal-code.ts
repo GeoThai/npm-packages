@@ -17,7 +17,9 @@ const postalCodeService = createService<PostalCode>(
 );
 
 /**
+ * Retrieves all postal codes from the database.
  *
+ * @returns An array of all postal code objects
  */
 export function getAllPostalCodes(): PostalCode[] {
   const key = "postal-codes";
@@ -30,8 +32,10 @@ export function getAllPostalCodes(): PostalCode[] {
 }
 
 /**
+ * Retrieves a postal code by its unique code.
  *
- * @param code
+ * @param code - The unique identifier code of the postal code
+ * @returns The postal code object if found, undefined otherwise
  */
 export function getPostalCode(code: PostalCodeIndex): PostalCode | undefined {
   const key = `postal-codes-${code}`;

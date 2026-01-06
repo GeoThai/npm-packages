@@ -17,7 +17,9 @@ const provinceService = createService<Province>(
 );
 
 /**
+ * Retrieves all provinces from the database.
  *
+ * @returns An array of all province objects
  */
 export function getAllProvinces(): Province[] {
   const key = "provinces";
@@ -30,8 +32,10 @@ export function getAllProvinces(): Province[] {
 }
 
 /**
+ * Retrieves a province by its unique code.
  *
- * @param code
+ * @param code - The unique identifier code of the province
+ * @returns The province object if found, undefined otherwise
  */
 export function getProvinceByCode(code: ProvinceIndex): Province | undefined {
   const key = `province-${code}`;
@@ -44,8 +48,10 @@ export function getProvinceByCode(code: ProvinceIndex): Province | undefined {
 }
 
 /**
+ * Retrieves provinces that match the specified search criteria.
  *
- * @param criterion
+ * @param criterion - The partial province object containing search criteria
+ * @returns An array of provinces matching the criteria
  */
 export function getProvincesByCriterion(
   criterion: Partial<Province>,

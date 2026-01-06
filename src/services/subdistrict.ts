@@ -17,7 +17,9 @@ const subdistrictService = createService<Subdistrict>(
 );
 
 /**
+ * Retrieves all subdistricts from the database.
  *
+ * @returns An array of all subdistrict objects
  */
 export function getAllSubdistricts(): Subdistrict[] {
   const key = "subdistricts";
@@ -30,8 +32,10 @@ export function getAllSubdistricts(): Subdistrict[] {
 }
 
 /**
+ * Retrieves a subdistrict by its unique code.
  *
- * @param code
+ * @param code - The unique identifier code of the subdistrict
+ * @returns The subdistrict object if found, undefined otherwise
  */
 export function getSubdistrictByCode(
   code: SubdistrictIndex,
@@ -46,8 +50,10 @@ export function getSubdistrictByCode(
 }
 
 /**
+ * Retrieves subdistricts that match the specified search criteria.
  *
- * @param criterion
+ * @param criterion - The partial subdistrict object containing search criteria
+ * @returns An array of subdistricts matching the criteria
  */
 export function getSubdistrictsByCriterion(
   criterion: Partial<Subdistrict>,

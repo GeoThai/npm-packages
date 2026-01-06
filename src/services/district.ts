@@ -17,7 +17,9 @@ const districtService = createService<District>(
 );
 
 /**
+ * Retrieves all districts from the database.
  *
+ * @returns An array of all district objects
  */
 export function getAllDistricts(): District[] {
   const key = "districts";
@@ -30,8 +32,10 @@ export function getAllDistricts(): District[] {
 }
 
 /**
+ * Retrieves a district by its unique code.
  *
- * @param code
+ * @param code - The unique identifier code of the district
+ * @returns The district object if found, undefined otherwise
  */
 export function getDistrictByCode(code: DistrictIndex): District | undefined {
   const key = `district-${code}`;
@@ -44,8 +48,10 @@ export function getDistrictByCode(code: DistrictIndex): District | undefined {
 }
 
 /**
+ * Retrieves districts that match the specified search criteria.
  *
- * @param criterion
+ * @param criterion - The partial district object containing search criteria
+ * @returns An array of districts matching the criteria
  */
 export function getDistrictsByCriterion(
   criterion: Partial<District>,
