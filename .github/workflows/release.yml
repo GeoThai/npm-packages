@@ -42,15 +42,17 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Format generated files
+        if: steps.changesets.outputs.has_changesets == 'true'
+        run: bun run lint:fix
+
       - name: Get version
         if: steps.changesets.outputs.has_changesets == 'true'
         id: version
         run: echo "version=$(node -p "require('./package.json').version")" >> $GITHUB_OUTPUT
 
-      - name: Commit and create PR
+      - name: Commit and push release branch
         if: steps.changesets.outputs.has_changesets == 'true'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -59,16 +61,30 @@ jobs:
           git commit -m "chore(release): v${{ steps.version.outputs.version }}" --no-verify
           git push -f origin changeset-release/main
 
-          # Create or update PR
+      - name: Create PR
+        if: steps.changesets.outputs.has_changesets == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+        run: |
+          # Check if PR already exists
           PR_EXISTS=$(gh pr list --head changeset-release/main --json number --jq '.[0].number')
           if [ -n "$PR_EXISTS" ]; then
-            echo "PR #$PR_EXISTS already exists"
+            echo "✅ PR #$PR_EXISTS already exists"
           else
-            gh pr create \
+            # Try to create PR (will fail if org permissions block it)
+            if gh pr create \
               --title "chore(release): v${{ steps.version.outputs.version }}" \
               --body "This PR was opened by the release workflow. Merge it to publish v${{ steps.version.outputs.version }} to npm." \
               --base main \
-              --head changeset-release/main
+              --head changeset-release/main; then
+              echo "✅ PR created successfully"
+            else
+              echo "⚠️ Failed to create PR automatically due to organization permissions."
+              echo "📝 Please create the PR manually:"
+              echo "   gh pr create --head changeset-release/main --base main --title \"chore(release): v${{ steps.version.outputs.version }}\" --body \"Release v${{ steps.version.outputs.version }}\""
+              echo "   Or visit: https://github.com/${{ github.repository }}/compare/main...changeset-release/main"
+            fi
           fi
 
       - name: Configure npm
@@ -91,11 +107,26 @@ jobs:
             echo "Publishing $PACKAGE_NAME@$CURRENT_VERSION"
             bun run release
             echo "published=true" >> $GITHUB_OUTPUT
+            echo "version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
           else
             echo "Version $CURRENT_VERSION already published, skipping"
             echo "published=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Push tags
+      - name: Create and push tag
         if: steps.publish.outputs.published == 'true'
-        run: git push --tags
+        run: |
+          VERSION="${{ steps.publish.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Create tag if it doesn't exist
+          if ! git rev-parse "v$VERSION" >/dev/null 2>&1; then
+            git tag "v$VERSION"
+            echo "✅ Created tag v$VERSION"
+          else
+            echo "ℹ️ Tag v$VERSION already exists"
+          fi
+
+          # Push tags
+          git push origin "v$VERSION" || echo "⚠️ Tag may already exist on remote"
