@@ -4,8 +4,8 @@ type CacheItem<T> = {
 };
 
 class Cache {
-  private cacheMap: Map<string, CacheItem<unknown>> = new Map();
-  private defaultTTL: number = 60 * 60 * 1000; // 1 hour in milliseconds
+  private readonly cacheMap: Map<string, CacheItem<unknown>> = new Map();
+  private readonly defaultTTL: number = 60 * 60 * 1000; // 1 hour in milliseconds
 
   public has(key: string): boolean {
     const item = this.cacheMap.get(key);
