@@ -1,3 +1,3 @@
-[submodule "src/data"]
-	path = src/data
+[submodule "data"]
+	path = data
 	url = https://github.com/GeoThai/data.git

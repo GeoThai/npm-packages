@@ -2,7 +2,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-const DATA_DIR = join(process.cwd(), "src/data/data/v4");
+const DATA_DIR = join(process.cwd(), "data/data/v4");
 const TYPES_DIR = join(process.cwd(), "src/types");
 
 // Read data files

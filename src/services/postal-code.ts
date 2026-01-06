@@ -1,10 +1,18 @@
-import postalLookup from "../data/data/v4/postal_lookup.json";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { PostalCode, PostalCodeIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
 import { recordToArray } from "../utils/record-to-array";
 
-const postalCodes = recordToArray(postalLookup as Record<string, PostalCode>);
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const dataPath = join(__dirname, "../data/postal_lookup.json");
+const devPath = join(__dirname, "../../data/data/v4/postal_lookup.json");
+const postalLookup = JSON.parse(
+  readFileSync(existsSync(dataPath) ? dataPath : devPath, "utf-8"),
+) as Record<string, PostalCode>;
+const postalCodes = recordToArray(postalLookup);
 
 export const createPostalCodeService = (data: PostalCode[]) => {
   return createService<PostalCode>(data, "postal_code");

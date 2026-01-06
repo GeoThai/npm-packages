@@ -1,9 +1,16 @@
-import geoData from "../data/data/v4/geo.json";
+import { existsSync, readFileSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { Province, Subdistrict, SubdistrictIndex } from "../types";
 import { cache } from "../utils/cache";
 import { createService } from "../utils/create-service";
 
-const provinces = geoData as Province[];
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const dataPath = join(__dirname, "../data/geo.json");
+const devPath = join(__dirname, "../../data/data/v4/geo.json");
+const provinces = JSON.parse(
+  readFileSync(existsSync(dataPath) ? dataPath : devPath, "utf-8"),
+) as Province[];
 
 // Flatten all subdistricts from all districts from all provinces
 const subdistricts: Subdistrict[] = provinces.flatMap((province) =>
