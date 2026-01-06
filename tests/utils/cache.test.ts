@@ -5,6 +5,9 @@ describe("Cache", () => {
   const TEST_KEY = "test-key";
   const TEST_VALUE = "test-value";
   const KEY_VALUE = "value";
+  const EXPIRING_KEY = "expiring-key";
+  const NON_EXPIRING_KEY = "non-expiring";
+  const DEFAULT_TTL_KEY = "default-ttl";
 
   test("should set and get a value", () => {
     cache.clear();
@@ -27,22 +30,22 @@ describe("Cache", () => {
   test("should handle expired items", async () => {
     cache.clear();
     // Set with very short TTL (1ms)
-    cache.set("expiring-key", KEY_VALUE, 1);
+    cache.set(EXPIRING_KEY, KEY_VALUE, 1);
 
     // Wait for expiration
     await new Promise((resolve) => setTimeout(resolve, 10));
 
-    expect(cache.has("expiring-key")).toBe(false);
-    expect(cache.get("expiring-key")).toBeUndefined();
+    expect(cache.has(EXPIRING_KEY)).toBe(false);
+    expect(cache.get(EXPIRING_KEY)).toBeUndefined();
   });
 
   test("should handle non-expired items", () => {
     cache.clear();
     // Set with long TTL
-    cache.set("non-expiring", KEY_VALUE, 10000);
+    cache.set(NON_EXPIRING_KEY, KEY_VALUE, 10000);
 
-    expect(cache.has("non-expiring")).toBe(true);
-    expect(cache.get("non-expiring")).toBe(KEY_VALUE);
+    expect(cache.has(NON_EXPIRING_KEY)).toBe(true);
+    expect(cache.get(NON_EXPIRING_KEY)).toBe(KEY_VALUE);
   });
 
   test("should clear all cache", () => {
@@ -71,11 +74,11 @@ describe("Cache", () => {
 
   test("should use default TTL when not specified", () => {
     cache.clear();
-    cache.set("default-ttl", KEY_VALUE);
+    cache.set(DEFAULT_TTL_KEY, KEY_VALUE);
 
     // Item should exist (default TTL is 1 hour)
-    expect(cache.has("default-ttl")).toBe(true);
-    expect(cache.get("default-ttl")).toBe(KEY_VALUE);
+    expect(cache.has(DEFAULT_TTL_KEY)).toBe(true);
+    expect(cache.get(DEFAULT_TTL_KEY)).toBe(KEY_VALUE);
   });
 
   test("should handle item without expiry", () => {
