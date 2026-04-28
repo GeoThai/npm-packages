@@ -131,3 +131,9 @@ jobs:
 
           # Push tags
           git push origin "v$VERSION" || echo "⚠️ Tag may already exist on remote"
+
+      - name: Generate Release Notes
+        if: steps.publish.outputs.published == 'true'
+        run: bunx changelogithub
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
