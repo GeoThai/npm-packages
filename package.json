@@ -1,7 +1,17 @@
 {
   "name": "geothai",
   "private": true,
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "exports": {
+    ".": "./dist/index.js",
+    "./types": "./dist/types.js",
+    "./package.json": "./package.json"
+  },
   "scripts": {
+    "build": "tsdown",
     "data": "bun scripts/data.ts",
     "format": "oxfmt",
     "format:check": "oxfmt --check",
@@ -16,6 +26,10 @@
     "oxfmt": "0.74.0",
     "oxlint": "1.89.0",
     "oxlint-tsgolint": "7.0.2004",
+    "tsdown": "0.23.1",
     "typescript": "7.0.2"
+  },
+  "engines": {
+    "node": ">=22.12"
   }
 }
