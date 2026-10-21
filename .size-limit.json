@@ -1,0 +1,16 @@
+[
+  {
+    "name": "province() only",
+    "path": "dist/index.js",
+    "import": "{ province }",
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "districts() only",
+    "path": "dist/index.js",
+    "import": "{ districts }",
+    "limit": "12.5 kB"
+  },
+  { "name": "search() only", "path": "dist/index.js", "import": "{ search }", "limit": "89 kB" },
+  { "name": "geothai/abolished", "path": "dist/abolished.js", "import": "*", "limit": "19 kB" }
+]
