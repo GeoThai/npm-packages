@@ -6,15 +6,14 @@ export type District = Province & { province_code: string };
 
 const list: Province[] = rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en }));
 const byCode = new Map(list.map((p) => [p.code, p]));
-const districtsBy = Map.groupBy(
-  districtRows.map(([code, name_th, name_en]): District => ({
-    code,
-    name_th,
-    name_en,
-    province_code: code.slice(0, 2),
-  })),
-  (d) => d.province_code,
-);
+const districtList = districtRows.map(([code, name_th, name_en]): District => ({
+  code,
+  name_th,
+  name_en,
+  province_code: code.slice(0, 2),
+}));
+const districtsBy = Map.groupBy(districtList, (d) => d.province_code);
+const districtByCode = new Map(districtList.map((d) => [d.code, d]));
 
 /** Every province, sorted by code. */
 export function provinces(): Province[] {
@@ -29,4 +28,9 @@ export function province(code: string): Province | undefined {
 /** The districts of a province, sorted by code. Empty for an unknown province. */
 export function districts(provinceCode: string): District[] {
   return [...(districtsBy.get(provinceCode) ?? [])];
+}
+
+/** The district with this four-digit code, or undefined. */
+export function district(code: string): District | undefined {
+  return districtByCode.get(code);
 }
