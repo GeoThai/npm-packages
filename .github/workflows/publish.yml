@@ -1,9 +1,11 @@
 name: Publish
 
 # Push a tag vX.Y.Z that matches package.json to publish that version to npm.
+# update.yml starts this workflow on its own tag, because its push starts nothing.
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: write
