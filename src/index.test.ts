@@ -1,4 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 
 import {
   address,
@@ -137,4 +140,20 @@ test('search returns nothing for an empty query and respects the limit', () => {
 
 test('dataVersion matches data.version', async () => {
   expect(`v${dataVersion}`).toBe((await Bun.file('data.version').text()).trim());
+});
+
+test('an app that only calls province() does not bundle the other levels', async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'geothai-shake-'));
+  try {
+    const entry = join(dir, 'app.ts');
+    await Bun.write(
+      entry,
+      `import { province } from '${import.meta.dir}/index';\nconsole.log(province('84'));\n`,
+    );
+    const out = await Bun.build({ entrypoints: [entry], minify: true });
+    const size = (await out.outputs[0]?.text())?.length ?? 0;
+    expect(size).toBeLessThan(10_000);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
 });

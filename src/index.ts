@@ -11,32 +11,49 @@ import type {
   Subdistrict,
 } from './types';
 
-const list: Province[] = rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en }));
-const byCode = new Map(list.map((p) => [p.code, p]));
-const districtList = districtRows.map(([code, name_th, name_en]): District => ({
-  code,
-  name_th,
-  name_en,
-  province_code: code.slice(0, 2),
-}));
-const districtsBy = Map.groupBy(districtList, (d) => d.province_code);
-const districtByCode = new Map(districtList.map((d) => [d.code, d]));
-const subdistrictList = subdistrictRows.map(([code, name_th, name_en, postal]): Subdistrict => ({
-  code,
-  name_th,
-  name_en,
-  district_code: code.slice(0, 4),
-  province_code: code.slice(0, 2),
-  postal_codes: postal.split(' '),
-}));
-const subdistrictsBy = Map.groupBy(subdistrictList, (s) => s.district_code);
-const subdistrictByCode = new Map(subdistrictList.map((s) => [s.code, s]));
-const subdistrictsByPostal = new Map<string, Subdistrict[]>();
-for (const s of subdistrictList) {
-  for (const code of s.postal_codes) {
-    subdistrictsByPostal.set(code, [...(subdistrictsByPostal.get(code) ?? []), s]);
-  }
+// Each level is built on first use, so bundlers can drop the data of levels an app never calls.
+function once<T>(make: () => T): () => T {
+  let value: T | undefined;
+  return () => (value ??= make());
 }
+
+const provinceList = /* @__PURE__ */ once((): Province[] =>
+  rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en })),
+);
+const provinceByCode = /* @__PURE__ */ once(() => new Map(provinceList().map((p) => [p.code, p])));
+const districtList = /* @__PURE__ */ once((): District[] =>
+  districtRows.map(([code, name_th, name_en]) => ({
+    code,
+    name_th,
+    name_en,
+    province_code: code.slice(0, 2),
+  })),
+);
+const districtsBy = /* @__PURE__ */ once(() => Map.groupBy(districtList(), (d) => d.province_code));
+const districtByCode = /* @__PURE__ */ once(() => new Map(districtList().map((d) => [d.code, d])));
+const subdistrictList = /* @__PURE__ */ once((): Subdistrict[] =>
+  subdistrictRows.map(([code, name_th, name_en, postal]) => ({
+    code,
+    name_th,
+    name_en,
+    district_code: code.slice(0, 4),
+    province_code: code.slice(0, 2),
+    postal_codes: postal.split(' '),
+  })),
+);
+const subdistrictsBy = /* @__PURE__ */ once(() =>
+  Map.groupBy(subdistrictList(), (s) => s.district_code),
+);
+const subdistrictByCode = /* @__PURE__ */ once(
+  () => new Map(subdistrictList().map((s) => [s.code, s])),
+);
+const subdistrictsByPostal = /* @__PURE__ */ once(() => {
+  const map = new Map<string, Subdistrict[]>();
+  for (const s of subdistrictList()) {
+    for (const code of s.postal_codes) map.set(code, [...(map.get(code) ?? []), s]);
+  }
+  return map;
+});
 
 /**
  * The GeoThai/data release this package was built from, as `YYYY.M.D`.
@@ -55,7 +72,7 @@ export const dataVersion: string = version;
  * provinces().map((p) => p.name_en); // ['Bangkok', 'Samut Prakan', …]
  */
 export function provinces(): Province[] {
-  return [...list];
+  return [...provinceList()];
 }
 
 /**
@@ -67,7 +84,7 @@ export function provinces(): Province[] {
  * province('84')?.name_en; // 'Surat Thani'
  */
 export function province(code: string): Province | undefined {
-  return byCode.get(code);
+  return provinceByCode().get(code);
 }
 
 /**
@@ -79,7 +96,7 @@ export function province(code: string): Province | undefined {
  * districts('84').length; // 19
  */
 export function districts(provinceCode: string): District[] {
-  return [...(districtsBy.get(provinceCode) ?? [])];
+  return [...(districtsBy().get(provinceCode) ?? [])];
 }
 
 /**
@@ -91,7 +108,7 @@ export function districts(provinceCode: string): District[] {
  * district('8405')?.name_th; // 'เกาะพะงัน'
  */
 export function district(code: string): District | undefined {
-  return districtByCode.get(code);
+  return districtByCode().get(code);
 }
 
 /**
@@ -103,7 +120,7 @@ export function district(code: string): District | undefined {
  * subdistricts('8405').map((s) => s.name_en); // ['Ko Pha-ngan', 'Ban Tai', 'Ko Tao']
  */
 export function subdistricts(districtCode: string): Subdistrict[] {
-  return [...(subdistrictsBy.get(districtCode) ?? [])];
+  return [...(subdistrictsBy().get(districtCode) ?? [])];
 }
 
 /**
@@ -115,7 +132,7 @@ export function subdistricts(districtCode: string): Subdistrict[] {
  * subdistrict('840503')?.postal_codes; // ['84360']
  */
 export function subdistrict(code: string): Subdistrict | undefined {
-  return subdistrictByCode.get(code);
+  return subdistrictByCode().get(code);
 }
 
 /**
@@ -129,10 +146,10 @@ export function subdistrict(code: string): Subdistrict | undefined {
  * // 'เกาะเต่า เกาะพะงัน สุราษฎร์ธานี'
  */
 export function address(subdistrictCode: string): Address | undefined {
-  const found = subdistrictByCode.get(subdistrictCode);
+  const found = subdistrictByCode().get(subdistrictCode);
   if (!found) return undefined;
-  const parentDistrict = districtByCode.get(found.district_code);
-  const parentProvince = byCode.get(found.province_code);
+  const parentDistrict = districtByCode().get(found.district_code);
+  const parentProvince = provinceByCode().get(found.province_code);
   if (!parentDistrict || !parentProvince) return undefined;
   return { province: parentProvince, district: parentDistrict, subdistrict: found };
 }
@@ -146,7 +163,7 @@ export function address(subdistrictCode: string): Address | undefined {
  * byPostalCode('84280').map((s) => s.name_en); // ['Ko Pha-ngan', 'Ban Tai']
  */
 export function byPostalCode(postalCode: string): Subdistrict[] {
-  return [...(subdistrictsByPostal.get(postalCode) ?? [])];
+  return [...(subdistrictsByPostal().get(postalCode) ?? [])];
 }
 
 // Words people type before a name ("อำเภอ…", "เขต…") and the marks English names differ by.
@@ -157,7 +174,13 @@ const key = (text: string): string =>
     .replaceAll(/[\s.'-]/g, '')
     .replace(PREFIX, '');
 
-let index: { result: SearchResult; keys: string[] }[] | undefined;
+const searchIndex = /* @__PURE__ */ once(() =>
+  [
+    ...provinceList().map((area): SearchResult => ({ level: 'province', area })),
+    ...districtList().map((area): SearchResult => ({ level: 'district', area })),
+    ...subdistrictList().map((area): SearchResult => ({ level: 'subdistrict', area })),
+  ].map((result) => ({ result, keys: [key(result.area.name_th), key(result.area.name_en)] })),
+);
 
 /**
  * Finds provinces, districts and subdistricts by Thai or English name.
@@ -175,15 +198,10 @@ export function search(query: string, options: SearchOptions = {}): SearchResult
   const { limit = 10 } = options;
   const q = key(query);
   if (!q) return [];
-  index ??= [
-    ...list.map((area): SearchResult => ({ level: 'province', area })),
-    ...districtList.map((area): SearchResult => ({ level: 'district', area })),
-    ...subdistrictList.map((area): SearchResult => ({ level: 'subdistrict', area })),
-  ].map((result) => ({ result, keys: [key(result.area.name_th), key(result.area.name_en)] }));
 
   const starts: SearchResult[] = [];
   const contains: SearchResult[] = [];
-  for (const { result, keys } of index) {
+  for (const { result, keys } of searchIndex()) {
     if (keys.some((k) => k.startsWith(q))) starts.push(result);
     else if (keys.some((k) => k.includes(q))) contains.push(result);
   }
