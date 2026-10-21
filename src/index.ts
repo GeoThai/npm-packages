@@ -27,6 +27,12 @@ const subdistrictList = subdistrictRows.map(([code, name_th, name_en, postal]): 
 }));
 const subdistrictsBy = Map.groupBy(subdistrictList, (s) => s.district_code);
 const subdistrictByCode = new Map(subdistrictList.map((s) => [s.code, s]));
+const subdistrictsByPostal = new Map<string, Subdistrict[]>();
+for (const s of subdistrictList) {
+  for (const code of s.postal_codes) {
+    subdistrictsByPostal.set(code, [...(subdistrictsByPostal.get(code) ?? []), s]);
+  }
+}
 
 /** Every province, sorted by code. */
 export function provinces(): Province[] {
@@ -66,4 +72,9 @@ export function address(subdistrictCode: string): Address | undefined {
   const parentProvince = byCode.get(found.province_code);
   if (!parentDistrict || !parentProvince) return undefined;
   return { province: parentProvince, district: parentDistrict, subdistrict: found };
+}
+
+/** The subdistricts that use this five-digit postal code, sorted by code. Empty if none do. */
+export function byPostalCode(postalCode: string): Subdistrict[] {
+  return [...(subdistrictsByPostal.get(postalCode) ?? [])];
 }

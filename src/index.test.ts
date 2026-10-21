@@ -2,6 +2,7 @@ import { expect, test } from 'bun:test';
 
 import {
   address,
+  byPostalCode,
   district,
   districts,
   province,
@@ -93,4 +94,10 @@ test('every subdistrict has a full address', () => {
     districts(p.code).flatMap((d) => subdistricts(d.code).map((s) => s.code)),
   );
   expect(codes.every((code) => address(code))).toBe(true);
+});
+
+test('byPostalCode finds every subdistrict that uses a code', () => {
+  expect(byPostalCode('84280').map((s) => s.code)).toEqual(['840501', '840502']);
+  expect(byPostalCode('10250').map((s) => s.code)).toContain('100608');
+  expect(byPostalCode('00000')).toEqual([]);
 });
