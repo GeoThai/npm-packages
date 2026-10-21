@@ -5,6 +5,7 @@ import subdistrictRows from './data/subdistricts.ts';
 export type Province = { code: string; name_th: string; name_en: string };
 export type District = Province & { province_code: string };
 export type Subdistrict = District & { district_code: string; postal_codes: string[] };
+export type Address = { province: Province; district: District; subdistrict: Subdistrict };
 
 const list: Province[] = rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en }));
 const byCode = new Map(list.map((p) => [p.code, p]));
@@ -55,4 +56,14 @@ export function subdistricts(districtCode: string): Subdistrict[] {
 /** The subdistrict with this six-digit code, or undefined. */
 export function subdistrict(code: string): Subdistrict | undefined {
   return subdistrictByCode.get(code);
+}
+
+/** A subdistrict with its district and province, or undefined for an unknown code. */
+export function address(subdistrictCode: string): Address | undefined {
+  const found = subdistrictByCode.get(subdistrictCode);
+  if (!found) return undefined;
+  const parentDistrict = districtByCode.get(found.district_code);
+  const parentProvince = byCode.get(found.province_code);
+  if (!parentDistrict || !parentProvince) return undefined;
+  return { province: parentProvince, district: parentDistrict, subdistrict: found };
 }

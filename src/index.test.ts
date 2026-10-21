@@ -1,6 +1,14 @@
 import { expect, test } from 'bun:test';
 
-import { district, districts, province, provinces, subdistrict, subdistricts } from './index.ts';
+import {
+  address,
+  district,
+  districts,
+  province,
+  provinces,
+  subdistrict,
+  subdistricts,
+} from './index.ts';
 
 test('provinces lists all 77, sorted by code', () => {
   const list = provinces();
@@ -70,4 +78,19 @@ test('subdistrict finds one by code', () => {
   expect(subdistrict('100608')?.postal_codes).toEqual(['10240', '10250']);
   expect(subdistrict('8405')).toBeUndefined();
   expect(subdistrict('999999')).toBeUndefined();
+});
+
+test('address gives the full chain of a subdistrict', () => {
+  const found = address('840503');
+  expect(found?.subdistrict.name_en).toBe('Ko Tao');
+  expect(found?.district.name_en).toBe('Ko Pha-ngan');
+  expect(found?.province.name_en).toBe('Surat Thani');
+  expect(address('8405')).toBeUndefined();
+});
+
+test('every subdistrict has a full address', () => {
+  const codes = provinces().flatMap((p) =>
+    districts(p.code).flatMap((d) => subdistricts(d.code).map((s) => s.code)),
+  );
+  expect(codes.every((code) => address(code))).toBe(true);
 });
