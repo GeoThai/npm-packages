@@ -1,5 +1,6 @@
 {
   "name": "geothai",
+  "version": "4.0.0",
   "private": true,
   "files": [
     "dist"
@@ -18,6 +19,7 @@
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
     "test": "bun test",
+    "test:pack": "bun run build && bun scripts/pack-test.ts",
     "typecheck": "tsc"
   },
   "devDependencies": {
