@@ -4,6 +4,10 @@ import subdistrictRows from './data/subdistricts';
 import type { District, Province, Subdistrict } from './types';
 
 export type Address = { province: Province; district: District; subdistrict: Subdistrict };
+export type SearchResult =
+  | { level: 'province'; area: Province }
+  | { level: 'district'; area: District }
+  | { level: 'subdistrict'; area: Subdistrict };
 
 const list: Province[] = rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en }));
 const byCode = new Map(list.map((p) => [p.code, p]));
@@ -75,4 +79,36 @@ export function address(subdistrictCode: string): Address | undefined {
 /** The subdistricts that use this five-digit postal code, sorted by code. Empty if none do. */
 export function byPostalCode(postalCode: string): Subdistrict[] {
   return [...(subdistrictsByPostal.get(postalCode) ?? [])];
+}
+
+// Words people type before a name ("อำเภอ…", "เขต…") and the marks English names differ by.
+const PREFIX = /^(?:จังหวัด|อำเภอ|เขต|ตำบล|แขวง|กิ่งอำเภอ)/;
+const key = (text: string): string =>
+  text
+    .toLowerCase()
+    .replaceAll(/[\s.'-]/g, '')
+    .replace(PREFIX, '');
+
+let index: { result: SearchResult; keys: string[] }[] | undefined;
+
+/**
+ * Areas whose Thai or English name contains the query, in any of the three levels.
+ * Names that start with the query come first, then provinces before districts before subdistricts.
+ */
+export function search(query: string, { limit = 10 }: { limit?: number } = {}): SearchResult[] {
+  const q = key(query);
+  if (!q) return [];
+  index ??= [
+    ...list.map((area): SearchResult => ({ level: 'province', area })),
+    ...districtList.map((area): SearchResult => ({ level: 'district', area })),
+    ...subdistrictList.map((area): SearchResult => ({ level: 'subdistrict', area })),
+  ].map((result) => ({ result, keys: [key(result.area.name_th), key(result.area.name_en)] }));
+
+  const starts: SearchResult[] = [];
+  const contains: SearchResult[] = [];
+  for (const { result, keys } of index) {
+    if (keys.some((k) => k.startsWith(q))) starts.push(result);
+    else if (keys.some((k) => k.includes(q))) contains.push(result);
+  }
+  return [...starts, ...contains].slice(0, limit);
 }

@@ -2,6 +2,7 @@ import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
   address,
+  search,
   byPostalCode,
   district,
   districts,
@@ -108,4 +109,27 @@ test('code types list only real codes', () => {
   expectTypeOf<'840503'>().toMatchTypeOf<SubdistrictCode>();
   // @ts-expect-error 99 is not a province code
   expectTypeOf<'99'>().toMatchTypeOf<ProvinceCode>();
+});
+
+const found = (query: string, limit?: number) =>
+  search(query, { limit }).map((r) => `${r.level} ${r.area.code}`);
+
+test('search finds a name in Thai or English, with or without marks', () => {
+  for (const query of ['พะงัน', 'phangan', 'Pha-ngan', 'pha ngan']) {
+    expect(found(query)).toEqual(['district 8405', 'subdistrict 840501']);
+  }
+});
+
+test('search puts names that start with the query first, then by level', () => {
+  expect(found('สุราษฎร์', 3)).toEqual(['province 84', 'district 8401', 'subdistrict 700403']);
+});
+
+test('search ignores the word for the level', () => {
+  expect(found('อำเภอเกาะพะงัน')).toEqual(found('เกาะพะงัน'));
+  expect(found('เขตพระนคร')).toContain('district 1001');
+});
+
+test('search returns nothing for an empty query and respects the limit', () => {
+  expect(search('  ')).toEqual([]);
+  expect(search('a', { limit: 5 })).toHaveLength(5);
 });
