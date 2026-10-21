@@ -9,6 +9,7 @@
   "sideEffects": false,
   "exports": {
     ".": "./dist/index.js",
+    "./abolished": "./dist/abolished.js",
     "./types": "./dist/types.js",
     "./package.json": "./package.json"
   },

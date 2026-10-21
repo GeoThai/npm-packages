@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/types.ts'],
+  entry: ['src/index.ts', 'src/abolished.ts', 'src/types.ts'],
   platform: 'neutral',
   exports: true,
   publint: { level: 'suggestion' },

@@ -10,7 +10,12 @@ async function get<T>(path: string): Promise<T> {
 
 type Row = { code: string; name_th: string; name_en: string };
 
-type Field = { name: string; type: string; description: string };
+type Field = {
+  name: string;
+  type: string;
+  description: string;
+  constraints?: { required?: boolean; enum?: string[] };
+};
 type DataPackage = { version: string; resources: { name: string; schema?: { fields: Field[] } }[] };
 
 const TS_TYPES: Record<string, string> = { string: 'string', array: 'string[]', date: 'string' };
@@ -20,8 +25,9 @@ function objectType(pkg: DataPackage, level: string, type: string): string {
   const fields = pkg.resources.find((r) => r.name === `${level}-json`)?.schema?.fields;
   if (!fields) throw new Error(`datapackage.json has no ${level}-json schema`);
   const lines = fields.map((f) => {
-    const ts = TS_TYPES[f.type];
-    if (!ts) throw new Error(`${level}.${f.name}: no TypeScript type for "${f.type}"`);
+    const base = f.constraints?.enum?.map((v) => `'${v}'`).join(' | ') ?? TS_TYPES[f.type];
+    if (!base) throw new Error(`${level}.${f.name}: no TypeScript type for "${f.type}"`);
+    const ts = f.constraints?.required ? base : `${base} | null`;
     return `  /** ${f.description.replaceAll('*/', '*\\/')} */\n  ${f.name}: ${ts};`;
   });
   return `export type ${type} = {\n${lines.join('\n')}\n};\n`;
@@ -64,6 +70,20 @@ await write(
   subdistricts.map((s) => [s.code, s.name_th, s.name_en, s.postal_codes.join(' ')]),
   '[string, string, string, string]',
 );
+const abolished =
+  await get<(Row & { name_en: string | null; parent_code: string | null; abolished_on: string })[]>(
+    'json/abolished.json',
+  );
+const strayAbolished = abolished.find((a) => a.parent_code && !a.code.startsWith(a.parent_code));
+if (strayAbolished) {
+  throw new Error(`abolished ${strayAbolished.code} is not under ${strayAbolished.parent_code}`);
+}
+await write(
+  'abolished',
+  abolished.map((a) => [a.code, a.name_th, a.name_en, a.abolished_on]),
+  '[string, string, string | null, string]',
+);
+
 const pkg = await get<DataPackage>('datapackage.json');
 if (`v${pkg.version}` !== version) {
   throw new Error(`datapackage.json says ${pkg.version}, data.version says ${version}`);
@@ -79,6 +99,7 @@ await Bun.write(
     objectType(pkg, 'provinces', 'Province'),
     objectType(pkg, 'districts', 'District'),
     objectType(pkg, 'subdistricts', 'Subdistrict'),
+    objectType(pkg, 'abolished', 'Abolished'),
     codes('ProvinceCode', provinces),
     codes('DistrictCode', districts),
     codes('SubdistrictCode', subdistricts),

@@ -1,6 +1,7 @@
 import type { District, Province, Subdistrict } from './data/types';
 
 export type {
+  Abolished,
   District,
   DistrictCode,
   Province,

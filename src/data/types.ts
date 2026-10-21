@@ -35,6 +35,21 @@ export type Subdistrict = {
   postal_codes: string[];
 };
 
+export type Abolished = {
+  /** DOPA code */
+  code: string;
+  /** Thai name */
+  name_th: string;
+  /** English name, empty when DOPA gives none */
+  name_en: string | null;
+  /** Area level */
+  level: 'province' | 'district' | 'subdistrict';
+  /** Parent area, empty for a province */
+  parent_code: string | null;
+  /** Date the area was abolished */
+  abolished_on: string;
+};
+
 export type ProvinceCode =
   | '10'
   | '11'
