@@ -16,17 +16,16 @@ const districtList = districtRows.map(([code, name_th, name_en]): District => ({
 }));
 const districtsBy = Map.groupBy(districtList, (d) => d.province_code);
 const districtByCode = new Map(districtList.map((d) => [d.code, d]));
-const subdistrictsBy = Map.groupBy(
-  subdistrictRows.map(([code, name_th, name_en, postal]): Subdistrict => ({
-    code,
-    name_th,
-    name_en,
-    district_code: code.slice(0, 4),
-    province_code: code.slice(0, 2),
-    postal_codes: postal.split(' '),
-  })),
-  (s) => s.district_code,
-);
+const subdistrictList = subdistrictRows.map(([code, name_th, name_en, postal]): Subdistrict => ({
+  code,
+  name_th,
+  name_en,
+  district_code: code.slice(0, 4),
+  province_code: code.slice(0, 2),
+  postal_codes: postal.split(' '),
+}));
+const subdistrictsBy = Map.groupBy(subdistrictList, (s) => s.district_code);
+const subdistrictByCode = new Map(subdistrictList.map((s) => [s.code, s]));
 
 /** Every province, sorted by code. */
 export function provinces(): Province[] {
@@ -51,4 +50,9 @@ export function district(code: string): District | undefined {
 /** The subdistricts of a district, sorted by code. Empty for an unknown district. */
 export function subdistricts(districtCode: string): Subdistrict[] {
   return [...(subdistrictsBy.get(districtCode) ?? [])];
+}
+
+/** The subdistrict with this six-digit code, or undefined. */
+export function subdistrict(code: string): Subdistrict | undefined {
+  return subdistrictByCode.get(code);
 }
