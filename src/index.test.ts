@@ -2,6 +2,7 @@ import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
   address,
+  dataVersion,
   search,
   byPostalCode,
   district,
@@ -132,4 +133,8 @@ test('search ignores the word for the level', () => {
 test('search returns nothing for an empty query and respects the limit', () => {
   expect(search('  ')).toEqual([]);
   expect(search('a', { limit: 5 })).toHaveLength(5);
+});
+
+test('dataVersion matches data.version', async () => {
+  expect(`v${dataVersion}`).toBe((await Bun.file('data.version').text()).trim());
 });

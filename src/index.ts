@@ -1,6 +1,7 @@
 import districtRows from './data/districts';
 import rows from './data/provinces';
 import subdistrictRows from './data/subdistricts';
+import version from './data/version';
 import type {
   Address,
   District,
@@ -36,6 +37,15 @@ for (const s of subdistrictList) {
     subdistrictsByPostal.set(code, [...(subdistrictsByPostal.get(code) ?? []), s]);
   }
 }
+
+/**
+ * The GeoThai/data release this package was built from, as `YYYY.M.D`.
+ * See the changes in each release at https://geothai.fasu.dev/changelog/.
+ *
+ * @example
+ * dataVersion; // '2026.10.20'
+ */
+export const dataVersion: string = version;
 
 /**
  * Every province, sorted by code.
