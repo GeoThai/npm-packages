@@ -1,7 +1,7 @@
-import districtRows from './data/districts.ts';
-import rows from './data/provinces.ts';
-import subdistrictRows from './data/subdistricts.ts';
-import type { District, Province, Subdistrict } from './types.ts';
+import districtRows from './data/districts';
+import rows from './data/provinces';
+import subdistrictRows from './data/subdistricts';
+import type { District, Province, Subdistrict } from './types';
 
 export type Address = { province: Province; district: District; subdistrict: Subdistrict };
 

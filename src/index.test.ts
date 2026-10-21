@@ -9,8 +9,8 @@ import {
   provinces,
   subdistrict,
   subdistricts,
-} from './index.ts';
-import type { ProvinceCode, SubdistrictCode } from './types.ts';
+} from './index';
+import type { ProvinceCode, SubdistrictCode } from './types';
 
 test('provinces lists all 77, sorted by code', () => {
   const list = provinces();
