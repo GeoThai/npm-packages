@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test';
 
-import { province, provinces } from './index.ts';
+import { districts, province, provinces } from './index.ts';
 
 test('provinces lists all 77, sorted by code', () => {
   const list = provinces();
@@ -17,4 +17,20 @@ test('provinces returns a new array each call', () => {
 test('province finds one by code', () => {
   expect(province('84')).toEqual({ code: '84', name_th: 'สุราษฎร์ธานี', name_en: 'Surat Thani' });
   expect(province('99')).toBeUndefined();
+});
+
+test('districts lists the districts of a province', () => {
+  const list = districts('84');
+  expect(list).toHaveLength(19);
+  expect(list[4]).toEqual({
+    code: '8405',
+    name_th: 'เกาะพะงัน',
+    name_en: 'Ko Pha-ngan',
+    province_code: '84',
+  });
+  expect(districts('99')).toEqual([]);
+});
+
+test('every province has districts, 928 in all', () => {
+  expect(provinces().reduce((n, p) => n + districts(p.code).length, 0)).toBe(928);
 });
