@@ -2,6 +2,21 @@
   "name": "geothai",
   "version": "4.0.0",
   "private": true,
+  "description": "Every province, district, subdistrict and postal code of Thailand, with types and search",
+  "keywords": [
+    "address",
+    "districts",
+    "postal-code",
+    "provinces",
+    "subdistricts",
+    "thailand"
+  ],
+  "homepage": "https://geothai.fasu.dev",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoThai/npm-packages.git"
+  },
   "files": [
     "dist"
   ],
