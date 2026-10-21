@@ -1,22 +1,14 @@
 import districtRows from './data/districts';
 import rows from './data/provinces';
 import subdistrictRows from './data/subdistricts';
-import type { District, Province, Subdistrict } from './types';
-
-/** A subdistrict together with the district and province it is in. */
-export type Address = { province: Province; district: District; subdistrict: Subdistrict };
-
-/** One match from {@link search}. Check `level` to know which kind of area `area` is. */
-export type SearchResult =
-  | { level: 'province'; area: Province }
-  | { level: 'district'; area: District }
-  | { level: 'subdistrict'; area: Subdistrict };
-
-/** Options for {@link search}. */
-export type SearchOptions = {
-  /** Most results to return. Default 10. */
-  limit?: number;
-};
+import type {
+  Address,
+  District,
+  Province,
+  SearchOptions,
+  SearchResult,
+  Subdistrict,
+} from './types';
 
 const list: Province[] = rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en }));
 const byCode = new Map(list.map((p) => [p.code, p]));

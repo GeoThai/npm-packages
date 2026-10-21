@@ -78,7 +78,7 @@
   "options": {
     "typeAware": true
   },
-  "ignorePatterns": ["src/data/**", "src/types.ts"],
+  "ignorePatterns": ["src/data/**"],
   "overrides": [
     {
       "files": ["scripts/**"],
