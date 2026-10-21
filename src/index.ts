@@ -1,10 +1,8 @@
 import districtRows from './data/districts.ts';
 import rows from './data/provinces.ts';
 import subdistrictRows from './data/subdistricts.ts';
+import type { District, Province, Subdistrict } from './types.ts';
 
-export type Province = { code: string; name_th: string; name_en: string };
-export type District = Province & { province_code: string };
-export type Subdistrict = District & { district_code: string; postal_codes: string[] };
 export type Address = { province: Province; district: District; subdistrict: Subdistrict };
 
 const list: Province[] = rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en }));

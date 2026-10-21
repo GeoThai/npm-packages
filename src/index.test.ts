@@ -1,4 +1,4 @@
-import { expect, test } from 'bun:test';
+import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
   address,
@@ -10,6 +10,7 @@ import {
   subdistrict,
   subdistricts,
 } from './index.ts';
+import type { ProvinceCode, SubdistrictCode } from './types.ts';
 
 test('provinces lists all 77, sorted by code', () => {
   const list = provinces();
@@ -100,4 +101,11 @@ test('byPostalCode finds every subdistrict that uses a code', () => {
   expect(byPostalCode('84280').map((s) => s.code)).toEqual(['840501', '840502']);
   expect(byPostalCode('10250').map((s) => s.code)).toContain('100608');
   expect(byPostalCode('00000')).toEqual([]);
+});
+
+test('code types list only real codes', () => {
+  expectTypeOf<'84'>().toMatchTypeOf<ProvinceCode>();
+  expectTypeOf<'840503'>().toMatchTypeOf<SubdistrictCode>();
+  // @ts-expect-error 99 is not a province code
+  expectTypeOf<'99'>().toMatchTypeOf<ProvinceCode>();
 });
