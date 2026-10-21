@@ -1,7 +1,14 @@
-import districtRows from './data/districts';
-import rows from './data/provinces';
-import subdistrictRows from './data/subdistricts';
 import version from './data/version';
+import {
+  districtByCode,
+  districtsBy,
+  provinceByCode,
+  provinceList,
+  searchIndex,
+  subdistrictByCode,
+  subdistrictsBy,
+  subdistrictsByPostal,
+} from './tables';
 import type {
   Address,
   District,
@@ -10,50 +17,7 @@ import type {
   SearchResult,
   Subdistrict,
 } from './types';
-
-// Each level is built on first use, so bundlers can drop the data of levels an app never calls.
-function once<T>(make: () => T): () => T {
-  let value: T | undefined;
-  return () => (value ??= make());
-}
-
-const provinceList = /* @__PURE__ */ once((): Province[] =>
-  rows.map(([code, name_th, name_en]) => ({ code, name_th, name_en })),
-);
-const provinceByCode = /* @__PURE__ */ once(() => new Map(provinceList().map((p) => [p.code, p])));
-const districtList = /* @__PURE__ */ once((): District[] =>
-  districtRows.map(([code, name_th, name_en]) => ({
-    code,
-    name_th,
-    name_en,
-    province_code: code.slice(0, 2),
-  })),
-);
-const districtsBy = /* @__PURE__ */ once(() => Map.groupBy(districtList(), (d) => d.province_code));
-const districtByCode = /* @__PURE__ */ once(() => new Map(districtList().map((d) => [d.code, d])));
-const subdistrictList = /* @__PURE__ */ once((): Subdistrict[] =>
-  subdistrictRows.map(([code, name_th, name_en, postal]) => ({
-    code,
-    name_th,
-    name_en,
-    district_code: code.slice(0, 4),
-    province_code: code.slice(0, 2),
-    postal_codes: postal.split(' '),
-  })),
-);
-const subdistrictsBy = /* @__PURE__ */ once(() =>
-  Map.groupBy(subdistrictList(), (s) => s.district_code),
-);
-const subdistrictByCode = /* @__PURE__ */ once(
-  () => new Map(subdistrictList().map((s) => [s.code, s])),
-);
-const subdistrictsByPostal = /* @__PURE__ */ once(() => {
-  const map = new Map<string, Subdistrict[]>();
-  for (const s of subdistrictList()) {
-    for (const code of s.postal_codes) map.set(code, [...(map.get(code) ?? []), s]);
-  }
-  return map;
-});
+import { normalize } from './utils/normalize';
 
 /**
  * The GeoThai/data release this package was built from, as `YYYY.M.D`.
@@ -166,22 +130,6 @@ export function byPostalCode(postalCode: string): Subdistrict[] {
   return [...(subdistrictsByPostal().get(postalCode) ?? [])];
 }
 
-// Words people type before a name ("อำเภอ…", "เขต…") and the marks English names differ by.
-const PREFIX = /^(?:จังหวัด|อำเภอ|เขต|ตำบล|แขวง|กิ่งอำเภอ)/;
-const key = (text: string): string =>
-  text
-    .toLowerCase()
-    .replaceAll(/[\s.'-]/g, '')
-    .replace(PREFIX, '');
-
-const searchIndex = /* @__PURE__ */ once(() =>
-  [
-    ...provinceList().map((area): SearchResult => ({ level: 'province', area })),
-    ...districtList().map((area): SearchResult => ({ level: 'district', area })),
-    ...subdistrictList().map((area): SearchResult => ({ level: 'subdistrict', area })),
-  ].map((result) => ({ result, keys: [key(result.area.name_th), key(result.area.name_en)] })),
-);
-
 /**
  * Finds provinces, districts and subdistricts by Thai or English name.
  * Case, spaces, hyphens and a leading word such as "อำเภอ" do not matter.
@@ -196,7 +144,7 @@ const searchIndex = /* @__PURE__ */ once(() =>
  */
 export function search(query: string, options: SearchOptions = {}): SearchResult[] {
   const { limit = 10 } = options;
-  const q = key(query);
+  const q = normalize(query);
   if (!q) return [];
 
   const starts: SearchResult[] = [];
