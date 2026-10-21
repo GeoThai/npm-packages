@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn", "oxc", "import", "promise"],
+  "plugins": ["typescript", "unicorn", "oxc", "import", "promise", "jsdoc"],
   "categories": {
     "correctness": "error",
     "suspicious": "error",
@@ -40,7 +40,36 @@
     "promise/no-return-wrap": "error",
     "promise/prefer-await-to-then": "error",
     "typescript/no-unsafe-type-assertion": "off",
-    "typescript/consistent-return": "off"
+    "typescript/consistent-return": "off",
+    "jsdoc/check-tag-names": "error",
+    "jsdoc/empty-tags": "error",
+    "jsdoc/no-blank-blocks": "error",
+    "jsdoc/no-defaults": "error",
+    "jsdoc/require-param": "error",
+    "jsdoc/require-param-name": "error",
+    "jsdoc/require-param-description": "error",
+    "jsdoc/require-returns": "error",
+    "jsdoc/require-returns-description": "error",
+    "jsdoc/require-throws-description": "error",
+    "jsdoc-js/require-jsdoc": [
+      "error",
+      {
+        "publicOnly": true,
+        "require": {
+          "FunctionDeclaration": true
+        },
+        "contexts": ["TSTypeAliasDeclaration"]
+      }
+    ],
+    "jsdoc-js/require-description": "error",
+    "jsdoc-js/require-example": [
+      "error",
+      {
+        "contexts": ["FunctionDeclaration"]
+      }
+    ],
+    "jsdoc-js/check-param-names": "error",
+    "jsdoc-js/no-types": "error"
   },
   "env": {
     "builtin": true,
@@ -56,6 +85,21 @@
       "rules": {
         "no-console": "off"
       }
+    },
+    {
+      "files": ["**/*.test.ts", "scripts/**"],
+      "rules": {
+        "jsdoc-js/require-jsdoc": "off",
+        "jsdoc-js/require-example": "off",
+        "jsdoc/require-param": "off",
+        "jsdoc/require-returns": "off"
+      }
+    }
+  ],
+  "jsPlugins": [
+    {
+      "name": "jsdoc-js",
+      "specifier": "eslint-plugin-jsdoc"
     }
   ]
 }
