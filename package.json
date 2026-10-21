@@ -3,9 +3,11 @@
   "private": true,
   "scripts": {
     "data": "bun scripts/data.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "typecheck": "tsc"
   },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "1.4.3",
+    "typescript": "7.0.2"
   }
 }
