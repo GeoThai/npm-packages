@@ -1,4 +1,10 @@
 {
+  "name": "geothai",
+  "private": true,
+  "scripts": {
+    "data": "bun scripts/data.ts",
+    "test": "bun test"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   }
