@@ -107,4 +107,4 @@ Address forms in Thailand need the same four lists, and most copies of them are 
 
 The code is [MIT](./LICENSE). The data is [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) © 2026 [Pongsakorn Thipayanate](https://github.com/pyyupsk).
 
-If you show the data, credit "GeoThai".
+If you show the data, credit "GeoThai". Source credits and the license of thailand-geography-json are in [NOTICE](./NOTICE).

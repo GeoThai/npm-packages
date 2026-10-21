@@ -11,13 +11,14 @@
     "thailand"
   ],
   "homepage": "https://geothai.fasu.dev",
-  "license": "MIT",
+  "license": "MIT AND CC-BY-4.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GeoThai/npm-packages.git"
   },
   "files": [
-    "dist"
+    "dist",
+    "NOTICE"
   ],
   "type": "module",
   "sideEffects": false,
