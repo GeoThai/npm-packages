@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "singleQuote": true,
+  "sortImports": {},
+  "sortPackageJson": {
+    "sortScripts": true
+  },
+  "ignorePatterns": ["**/bun.lock", "src/data/**"]
+}

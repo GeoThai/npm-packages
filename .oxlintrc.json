@@ -1,0 +1,61 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "promise"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "warn"
+  },
+  "rules": {
+    "import/first": "error",
+    "import/no-cycle": "error",
+    "import/no-duplicates": "error",
+    "import/no-self-import": "error",
+    "import/no-unassigned-import": "error",
+    "typescript/consistent-type-imports": "error",
+    "typescript/no-explicit-any": "error",
+    "typescript/no-non-null-assertion": "error",
+    "typescript/prefer-optional-chain": "error",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error",
+    "eqeqeq": "error",
+    "no-console": "error",
+    "no-nested-ternary": "error",
+    "no-param-reassign": "error",
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true,
+        "variables": true
+      }
+    ],
+    "no-var": "error",
+    "prefer-const": "error",
+    "prefer-template": "error",
+    "unicorn/prefer-string-slice": "error",
+    "unicorn/throw-new-error": "error",
+    "promise/no-return-wrap": "error",
+    "promise/prefer-await-to-then": "error",
+    "typescript/no-unsafe-type-assertion": "off",
+    "typescript/consistent-return": "off"
+  },
+  "env": {
+    "builtin": true,
+    "es2024": true
+  },
+  "options": {
+    "typeAware": true
+  },
+  "ignorePatterns": ["src/data/**"],
+  "overrides": [
+    {
+      "files": ["scripts/**"],
+      "rules": {
+        "no-console": "off"
+      }
+    }
+  ]
+}

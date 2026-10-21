@@ -1,4 +1,5 @@
 import { expect, test } from 'bun:test';
+
 import { provinces } from './index.ts';
 
 test('provinces lists all 77, sorted by code', () => {
