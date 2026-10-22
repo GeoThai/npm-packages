@@ -19,6 +19,7 @@ import type {
   SearchResult,
   Subdistrict,
 } from './types';
+import { isDistrict, isProvince } from './utils/areas';
 import { normalize } from './utils/normalize';
 
 /**
@@ -156,29 +157,6 @@ export function search(query: string, options: SearchOptions = {}): SearchResult
     else if (keys.some((k) => k.includes(q))) contains.push(result);
   }
   return [...starts, ...contains].slice(0, limit);
-}
-
-const PROVINCE_ALIASES: Record<string, string> = {
-  กทม: '10',
-  กรุงเทพ: '10',
-  อยุธยา: '14',
-  ayutthaya: '14',
-};
-
-function isProvince(p: Province, name: string) {
-  return (
-    name === normalize(p.name_th) ||
-    name === normalize(p.name_en) ||
-    PROVINCE_ALIASES[name] === p.code
-  );
-}
-
-// People write the capital district "อ.เมือง" without the province name. The capital is always XX01.
-function isDistrict(d: District, name: string) {
-  if (name === normalize(d.name_th) || name === normalize(d.name_en)) return true;
-  return (
-    d.code.endsWith('01') && d.province_code !== '10' && (name === 'เมือง' || name === 'mueang')
-  );
 }
 
 /**
