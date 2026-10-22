@@ -58,6 +58,7 @@ jobs:
           echo "$LATEST" > data.version
           bun install --frozen-lockfile
           bun run data
+          bun run typecheck
           bun test
           bun run size
 

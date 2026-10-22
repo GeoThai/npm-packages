@@ -38,6 +38,7 @@ jobs:
       - name: Tag matches package.json
         run: test "v$(jq -r .version package.json)" = "$GITHUB_REF_NAME"
       - run: bun test
+      - run: bun run typecheck
       - run: bun run size
       - run: npm publish
       - run: npx changelogithub@15.0.5
