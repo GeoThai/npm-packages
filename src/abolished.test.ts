@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 
-import { abolishedAreas } from './abolished';
-import { district, subdistrict } from './index';
+import { abolishedAreas, matchAbolished } from './abolished';
+import { address, district, subdistrict } from './index';
 
 test('abolishedAreas lists every abolished area with its level and parent', () => {
   const list = abolishedAreas();
@@ -40,4 +40,26 @@ test('abolished areas carry their successors and the notice behind them', () => 
       .flatMap((a) => a.successors ?? [])
       .filter((c) => !(c.length === 4 ? district(c) : subdistrict(c))),
   ).toEqual([]);
+});
+
+test('matchAbolished finds an old name and the areas that took its place', () => {
+  const [found] = matchAbolished({
+    subdistrict: 'แขวงบางนา',
+    district: 'เขตบางนา',
+    province: 'กทม',
+  });
+  expect(found?.code).toBe('104701');
+  expect(found?.successors).toEqual(['104702', '104703']);
+  expect(address(found?.successors?.[1] ?? '')?.subdistrict.name_th).toBe('บางนาใต้');
+});
+
+test('matchAbolished follows a subdistrict that moved to another district', () => {
+  const [found] = matchAbolished({ subdistrict: 'ท่าแฝก', province: 'อุตรดิตถ์' });
+  expect(found?.code).toBe('530306');
+  expect(address(found?.successors?.[0] ?? '')?.district.code).toBe('5304');
+});
+
+test('matchAbolished finds nothing for an unknown name or a blank one', () => {
+  expect(matchAbolished({ subdistrict: 'ไม่มีตำบลนี้' })).toEqual([]);
+  expect(matchAbolished({ subdistrict: ' ' })).toEqual([]);
 });

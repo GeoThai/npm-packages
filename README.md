@@ -77,6 +77,17 @@ bangNa?.successors_basis; // 'notice'
 
 `successors` lists the codes that took an abolished area's place. `successors_basis` says how sure the link is: `'notice'` comes from a Royal Gazette notice, with the date and source in `successors_in_force` and `successors_source`. `'name'` is a match by Thai name for codes DOPA dropped in 2006, likely but not proven. When no successor is known, `successors` is empty.
 
+For a name from an old record that `match()` does not find, `matchAbolished()` looks in the abolished subdistricts:
+
+```ts
+import { matchAbolished } from 'geothai/abolished';
+
+matchAbolished({ subdistrict: 'แขวงบางนา', district: 'เขตบางนา', province: 'กทม' }).map(
+  (a) => a.successors,
+);
+// [['104702', '104703']]
+```
+
 ## Types
 
 ```ts

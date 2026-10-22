@@ -11,7 +11,28 @@
     "import": "{ districts }",
     "limit": "12.5 kB"
   },
-  { "name": "search() only", "path": "dist/index.js", "import": "{ search }", "limit": "89 kB" },
-  { "name": "match() only", "path": "dist/index.js", "import": "{ match }", "limit": "90 kB" },
-  { "name": "geothai/abolished", "path": "dist/abolished.js", "import": "*", "limit": "23 kB" }
+  {
+    "name": "search() only",
+    "path": "dist/index.js",
+    "import": "{ search }",
+    "limit": "89 kB"
+  },
+  {
+    "name": "match() only",
+    "path": "dist/index.js",
+    "import": "{ match }",
+    "limit": "90 kB"
+  },
+  {
+    "name": "abolishedAreas() only",
+    "path": "dist/abolished.js",
+    "import": "{ abolishedAreas }",
+    "limit": "23 kB"
+  },
+  {
+    "name": "matchAbolished()",
+    "path": "dist/abolished.js",
+    "import": "{ matchAbolished }",
+    "limit": "33 kB"
+  }
 ]
