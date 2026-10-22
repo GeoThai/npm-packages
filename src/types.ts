@@ -24,3 +24,15 @@ export type SearchOptions = {
   /** Most results to return. Default 10. */
   limit?: number;
 };
+
+/** What `match()` takes: names as people write them, in Thai or English. */
+export type MatchQuery = {
+  /** Subdistrict name, such as `'ต.เกาะเต่า'` or `'Ko Tao'`. */
+  subdistrict: string;
+  /** District name. `'เมือง'` or `'Mueang'` matches the capital district of the province. */
+  district?: string;
+  /** Province name. `'กทม'` and `'กรุงเทพ'` match Bangkok, `'อยุธยา'` matches Phra Nakhon Si Ayutthaya. */
+  province?: string;
+  /** Five-digit postal code. */
+  postalCode?: string;
+};

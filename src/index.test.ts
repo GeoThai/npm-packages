@@ -10,6 +10,7 @@ import {
   byPostalCode,
   district,
   districts,
+  match,
   province,
   provinces,
   subdistrict,
@@ -136,6 +137,38 @@ test('search ignores the word for the level', () => {
 test('search returns nothing for an empty query and respects the limit', () => {
   expect(search('  ')).toEqual([]);
   expect(search('a', { limit: 5 })).toHaveLength(5);
+});
+
+const codes = (q: Parameters<typeof match>[0]) => match(q).map((a) => a.subdistrict.code);
+
+test('match narrows a shared subdistrict name by province, district and postal code', () => {
+  expect(codes({ subdistrict: 'วังทอง' })).toHaveLength(9);
+  expect(codes({ subdistrict: 'วังทอง', province: 'จ.พิษณุโลก' })).toEqual(['650801']);
+  expect(codes({ subdistrict: 'บางใหญ่', postalCode: '11140' })).toEqual(['120305']);
+  expect(codes({ subdistrict: 'Ko Tao', district: 'Ko Pha-ngan' })).toEqual(['840503']);
+});
+
+test('match reads the forms people write', () => {
+  expect(codes({ subdistrict: 'แขวงสีลม', district: 'เขตบางรัก', province: 'กทม' })).toEqual([
+    '100402',
+  ]);
+  expect(codes({ subdistrict: 'ต.ตลาด', district: 'อ.เมือง', province: 'สุราษฎร์ธานี' })).toEqual([
+    '840101',
+  ]);
+  expect(codes({ subdistrict: 'Pratu Chai', district: 'Mueang', province: 'Ayutthaya' })).toEqual([
+    '140101',
+  ]);
+  expect(codes({ subdistrict: 'พระบรมมหาราชวัง', district: 'เมือง', province: 'กรุงเทพ' })).toEqual(
+    [],
+  );
+});
+
+test('match ignores empty fields and finds nothing for a part of a name', () => {
+  expect(codes({ subdistrict: 'สีลม', district: '', province: ' ', postalCode: '' })).toEqual([
+    '100402',
+  ]);
+  expect(codes({ subdistrict: 'สี' })).toEqual([]);
+  expect(codes({ subdistrict: ' ' })).toEqual([]);
 });
 
 test('dataVersion matches data.version', async () => {

@@ -14,6 +14,14 @@ test('normalize drops a leading word for the level', () => {
   expect(normalize('บางเขต')).toBe('บางเขต');
 });
 
+test('normalize drops a short form only with its dot', () => {
+  expect(normalize('จ.สุราษฎร์ธานี')).toBe('สุราษฎร์ธานี');
+  expect(normalize(' อ. เกาะพะงัน')).toBe('เกาะพะงัน');
+  expect(normalize('ต.เกาะเต่า')).toBe('เกาะเต่า');
+  expect(normalize('อ่างทอง')).toBe('อ่างทอง');
+  expect(normalize('ตราด')).toBe('ตราด');
+});
+
 test('normalize leaves nothing for blank text', () => {
   expect(normalize('  - ')).toBe('');
 });

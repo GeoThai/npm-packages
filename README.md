@@ -39,24 +39,30 @@ const a = address('840503');
 
 search('phangan').map((r) => `${r.level} ${r.area.name_th}`);
 // ['district เกาะพะงัน', 'subdistrict เกาะพะงัน']
+
+match({ subdistrict: 'ต.ตลาด', district: 'อ.เมือง', province: 'สุราษฎร์ธานี' })[0]?.subdistrict.code;
+// '840101'
 ```
 
 ## API
 
-| Function                     | Returns                                                          |
-| ---------------------------- | ---------------------------------------------------------------- |
-| `provinces()`                | All 77 provinces, sorted by code                                 |
-| `province(code)`             | One province, or `undefined`                                     |
-| `districts(provinceCode)`    | The districts of a province, empty for an unknown code           |
-| `district(code)`             | One district, or `undefined`                                     |
-| `subdistricts(districtCode)` | The subdistricts of a district, empty for an unknown code        |
-| `subdistrict(code)`          | One subdistrict, or `undefined`                                  |
-| `address(subdistrictCode)`   | The subdistrict with its district and province, or `undefined`   |
-| `byPostalCode(postalCode)`   | The subdistricts that use a postal code                          |
-| `search(query, { limit })`   | Provinces, districts and subdistricts whose name has the query   |
-| `dataVersion`                | The GeoThai/data release in this package, such as `'2026.10.22'` |
+| Function                     | Returns                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------- |
+| `provinces()`                | All 77 provinces, sorted by code                                                      |
+| `province(code)`             | One province, or `undefined`                                                          |
+| `districts(provinceCode)`    | The districts of a province, empty for an unknown code                                |
+| `district(code)`             | One district, or `undefined`                                                          |
+| `subdistricts(districtCode)` | The subdistricts of a district, empty for an unknown code                             |
+| `subdistrict(code)`          | One subdistrict, or `undefined`                                                       |
+| `address(subdistrictCode)`   | The subdistrict with its district and province, or `undefined`                        |
+| `byPostalCode(postalCode)`   | The subdistricts that use a postal code                                               |
+| `search(query, { limit })`   | Provinces, districts and subdistricts whose name has the query                        |
+| `match(query)`               | The addresses that fit a hand-written subdistrict, district, province and postal code |
+| `dataVersion`                | The GeoThai/data release in this package, such as `'2026.10.22'`                      |
 
 Every function takes codes as strings and returns a new array, so you can sort or change it.
+
+`match()` is for addresses typed by hand, such as old records or form input. It reads short forms such as `ต.`, `อ.` and `จ.`, the word `เมือง` for a capital district, and `กทม` for Bangkok. Names must match in full. One result means the address is clear. More than one means you need another field: 795 subdistrict names are used more than once. None means no current subdistrict has the name.
 
 The areas that DOPA abolished have their own entry. The main entry does not hold them, so they stay out of your bundle:
 
@@ -77,11 +83,11 @@ bangNa?.successors_basis; // 'notice'
 import type { Province, ProvinceCode, SearchResult, Subdistrict } from 'geothai/types';
 ```
 
-| Type                                               | Content                                                        |
-| -------------------------------------------------- | -------------------------------------------------------------- |
-| `Province`, `District`, `Subdistrict`, `Abolished` | One area. Each field has its description from the data schema  |
-| `ProvinceCode`, `DistrictCode`, `SubdistrictCode`  | Every code in use, for autocomplete and checks at compile time |
-| `Address`, `SearchResult`, `SearchOptions`         | What `address()` and `search()` take and return                |
+| Type                                                     | Content                                                        |
+| -------------------------------------------------------- | -------------------------------------------------------------- |
+| `Province`, `District`, `Subdistrict`, `Abolished`       | One area. Each field has its description from the data schema  |
+| `ProvinceCode`, `DistrictCode`, `SubdistrictCode`        | Every code in use, for autocomplete and checks at compile time |
+| `Address`, `SearchResult`, `SearchOptions`, `MatchQuery` | What `address()`, `search()` and `match()` take and return     |
 
 The functions take `string`, not the code types. A data release can remove a code, and that must not break your build in a patch update.
 

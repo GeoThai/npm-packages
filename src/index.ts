@@ -7,11 +7,13 @@ import {
   searchIndex,
   subdistrictByCode,
   subdistrictsBy,
+  subdistrictsByName,
   subdistrictsByPostal,
 } from './tables';
 import type {
   Address,
   District,
+  MatchQuery,
   Province,
   SearchOptions,
   SearchResult,
@@ -154,4 +156,56 @@ export function search(query: string, options: SearchOptions = {}): SearchResult
     else if (keys.some((k) => k.includes(q))) contains.push(result);
   }
   return [...starts, ...contains].slice(0, limit);
+}
+
+const PROVINCE_ALIASES: Record<string, string> = {
+  กทม: '10',
+  กรุงเทพ: '10',
+  อยุธยา: '14',
+  ayutthaya: '14',
+};
+
+function isProvince(p: Province, name: string) {
+  return (
+    name === normalize(p.name_th) ||
+    name === normalize(p.name_en) ||
+    PROVINCE_ALIASES[name] === p.code
+  );
+}
+
+// People write the capital district "อ.เมือง" without the province name. The capital is always XX01.
+function isDistrict(d: District, name: string) {
+  if (name === normalize(d.name_th) || name === normalize(d.name_en)) return true;
+  return (
+    d.code.endsWith('01') && d.province_code !== '10' && (name === 'เมือง' || name === 'mueang')
+  );
+}
+
+/**
+ * Finds the subdistricts that fit an address written by hand, such as one from an old record or a form.
+ * Names must match in full, after the same clean-up as `search()`. Each field you give narrows the list.
+ *
+ * @param query - See {@link MatchQuery}. Empty fields are ignored.
+ * @returns Every address that fits, sorted by subdistrict code. One result means the address is clear.
+ *   More than one means you need another field. None means no current subdistrict has this name:
+ *   for an old name, check `abolishedAreas()` in `geothai/abolished`.
+ * @example
+ * match({ subdistrict: 'วังทอง' }).length; // 9
+ * match({ subdistrict: 'วังทอง', province: 'จ.พิษณุโลก' }).map((a) => a.subdistrict.code); // ['650801']
+ * match({ subdistrict: 'ต.ตลาด', district: 'อ.เมือง', province: 'สุราษฎร์ธานี' })[0]?.subdistrict.code; // '840101'
+ */
+export function match(query: MatchQuery): Address[] {
+  const name = normalize(query.subdistrict);
+  const districtName = query.district ? normalize(query.district) : '';
+  const provinceName = query.province ? normalize(query.province) : '';
+  const postal = query.postalCode?.trim();
+  if (!name) return [];
+  return (subdistrictsByName().get(name) ?? []).flatMap((s) => {
+    const found = address(s.code);
+    if (!found) return [];
+    if (postal && !s.postal_codes.includes(postal)) return [];
+    if (provinceName && !isProvince(found.province, provinceName)) return [];
+    if (districtName && !isDistrict(found.district, districtName)) return [];
+    return [found];
+  });
 }

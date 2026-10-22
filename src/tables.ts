@@ -70,3 +70,13 @@ export const searchIndex: Table<{ result: SearchResult; keys: string[] }[]> = /*
       keys: [normalize(result.area.name_th), normalize(result.area.name_en)],
     })),
 );
+
+export const subdistrictsByName: Table<Map<string, Subdistrict[]>> = /* @__PURE__ */ once(() => {
+  const map = new Map<string, Subdistrict[]>();
+  for (const s of subdistrictList()) {
+    for (const key of new Set([normalize(s.name_th), normalize(s.name_en)])) {
+      map.set(key, [...(map.get(key) ?? []), s]);
+    }
+  }
+  return map;
+});
