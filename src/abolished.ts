@@ -1,11 +1,12 @@
 import rows from './data/abolished';
+import sources from './data/abolished-sources';
 import type { Abolished } from './types';
 import { once } from './utils/once';
 
 const LEVELS = { 2: 'province', 4: 'district', 6: 'subdistrict' } as const;
 
 const list: () => Abolished[] = /* @__PURE__ */ once(() =>
-  rows.map(([code, name_th, name_en, abolished_on]) => {
+  rows.map(([code, name_th, name_en, abolished_on, successors, basis, inForce, source]) => {
     const level = LEVELS[code.length as keyof typeof LEVELS];
     if (!level) throw new Error(`abolished area ${code} has no level`);
     return {
@@ -15,6 +16,10 @@ const list: () => Abolished[] = /* @__PURE__ */ once(() =>
       level,
       parent_code: level === 'province' ? null : code.slice(0, -2),
       abolished_on,
+      successors: successors ? successors.split(' ') : [],
+      successors_basis: basis,
+      successors_in_force: inForce,
+      successors_source: source === null ? null : (sources[source] ?? null),
     };
   }),
 );

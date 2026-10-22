@@ -70,19 +70,38 @@ await write(
   subdistricts.map((s) => [s.code, s.name_th, s.name_en, s.postal_codes.join(' ')]),
   '[string, string, string, string]',
 );
-const abolished =
-  await get<(Row & { name_en: string | null; parent_code: string | null; abolished_on: string })[]>(
-    'json/abolished.json',
-  );
+const abolished = await get<
+  (Row & {
+    name_en: string | null;
+    parent_code: string | null;
+    abolished_on: string;
+    successors: string[];
+    successors_basis: 'notice' | 'name' | null;
+    successors_in_force: string | null;
+    successors_source: string | null;
+  })[]
+>('json/abolished.json');
 const strayAbolished = abolished.find((a) => a.parent_code && !a.code.startsWith(a.parent_code));
 if (strayAbolished) {
   throw new Error(`abolished ${strayAbolished.code} is not under ${strayAbolished.parent_code}`);
 }
+// A notice can cover many areas, so each source is written once and rows point to it.
+const sources = [...new Set(abolished.flatMap((a) => a.successors_source ?? []))];
 await write(
   'abolished',
-  abolished.map((a) => [a.code, a.name_th, a.name_en, a.abolished_on]),
-  '[string, string, string | null, string]',
+  abolished.map((a) => [
+    a.code,
+    a.name_th,
+    a.name_en,
+    a.abolished_on,
+    a.successors.join(' '),
+    a.successors_basis,
+    a.successors_in_force,
+    a.successors_source === null ? null : sources.indexOf(a.successors_source),
+  ]),
+  "[string, string, string | null, string, string, 'notice' | 'name' | null, string | null, number | null]",
 );
+await write('abolished-sources', sources, 'string');
 
 const pkg = await get<DataPackage>('datapackage.json');
 if (`v${pkg.version}` !== version) {

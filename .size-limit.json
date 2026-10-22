@@ -12,5 +12,5 @@
     "limit": "12.5 kB"
   },
   { "name": "search() only", "path": "dist/index.js", "import": "{ search }", "limit": "89 kB" },
-  { "name": "geothai/abolished", "path": "dist/abolished.js", "import": "*", "limit": "19 kB" }
+  { "name": "geothai/abolished", "path": "dist/abolished.js", "import": "*", "limit": "23 kB" }
 ]
