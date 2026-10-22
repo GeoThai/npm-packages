@@ -54,7 +54,7 @@ search('phangan').map((r) => `${r.level} ${r.area.name_th}`);
 | `address(subdistrictCode)`   | The subdistrict with its district and province, or `undefined`   |
 | `byPostalCode(postalCode)`   | The subdistricts that use a postal code                          |
 | `search(query, { limit })`   | Provinces, districts and subdistricts whose name has the query   |
-| `dataVersion`                | The GeoThai/data release in this package, such as `'2026.10.20'` |
+| `dataVersion`                | The GeoThai/data release in this package, such as `'2026.10.22'` |
 
 Every function takes codes as strings and returns a new array, so you can sort or change it.
 
@@ -63,8 +63,13 @@ The areas that DOPA abolished have their own entry. The main entry does not hold
 ```ts
 import { abolishedAreas } from 'geothai/abolished';
 
-abolishedAreas().find((a) => a.code === '100205')?.abolished_on; // '2006-01-01'
+const bangNa = abolishedAreas().find((a) => a.code === '104701');
+bangNa?.abolished_on; // '2022-04-22'
+bangNa?.successors; // ['104702', '104703']
+bangNa?.successors_basis; // 'notice'
 ```
+
+`successors` lists the codes that took an abolished area's place. `successors_basis` says how sure the link is: `'notice'` comes from a Royal Gazette notice, with the date and source in `successors_in_force` and `successors_source`. `'name'` is a match by Thai name for codes DOPA dropped in 2006, likely but not proven. When no successor is known, `successors` is empty.
 
 ## Types
 
