@@ -110,18 +110,86 @@ The functions take `string`, not the code types. A data release can remove a cod
 
 A new GeoThai/data release ships as a patch version. A change to the API gets a minor or major version. `dataVersion` tells you which data you have. The changes in each data release are at [geothai.fasu.dev/changelog](https://geothai.fasu.dev/changelog/).
 
-## Upgrading from v3
+## Upgrading from geothai 1.x to 3.x
 
-Version 4 is a rewrite on new data. Codes are now strings, and a subdistrict has `postal_codes`, an array.
+The old package `geothai` is now `@geothai/core`. The API is new, and the data is new too. Install the new package and remove the old one:
 
-| v3                                                           | v4                                      |
-| ------------------------------------------------------------ | --------------------------------------- |
-| `getAllProvinces()`                                          | `provinces()`                           |
-| `getProvinceByCode(10)`                                      | `province('10')`                        |
-| `getAllDistricts()`, `getAllSubdistricts()`                  | `districts(code)`, `subdistricts(code)` |
-| `getDistrictByCode()`, `getSubdistrictByCode()`              | `district()`, `subdistrict()`           |
-| `getPostalCode(code)`                                        | `byPostalCode(code)`                    |
-| `getProvincesByCriterion({ … })` and the other `ByCriterion` | `.filter()` on the list                 |
+```sh
+npm uninstall geothai
+npm install @geothai/core
+```
+
+```diff
+- import { getAllProvinces } from 'geothai';
++ import { provinces } from '@geothai/core';
+```
+
+### Codes
+
+Every code is now a string. The digits did not change: they are the DOPA codes, so `10` becomes `'10'` and `100101` becomes `'100101'`. If you stored old codes as numbers, convert them with `String(code)`.
+
+### Functions
+
+| v1                                                  | v2 and v3                                             | `@geothai/core`                                        |
+| --------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------ |
+| `getAllProvinces()`                                 | `getAllProvinces()`                                   | `provinces()`                                          |
+| `getProvinceById(10)`                               | `getProvinceByCode(10)`                               | `province('10')`                                       |
+| `getAllDistricts()`                                 | `getAllDistricts()`                                   | `provinces().flatMap((p) => districts(p.code))`        |
+| `getDistrictById(1001)`                             | `getDistrictByCode(1001)`                             | `district('1001')`                                     |
+| `getDistrictsByCriterion({ province_id: 10 })`      | `getDistrictsByCriterion({ province_code: 10 })`      | `districts('10')`                                      |
+| `getAllSubdistricts()`                              | `getAllSubdistricts()`                                | `subdistricts()` for each district, as above           |
+| `getSubdistrictById(100101)`                        | `getSubdistrictByCode(100101)`                        | `subdistrict('100101')`                                |
+| `getSubdistrictsByCriterion({ district_id: 1001 })` | `getSubdistrictsByCriterion({ district_code: 1001 })` | `subdistricts('1001')`                                 |
+| `getPostalCode(10200)`                              | `getPostalCode(10200)`                                | `byPostalCode('10200')`                                |
+| `getAllPostalCodes()`                               | `getAllPostalCodes()`                                 | No direct match. See [Postal codes](#postal-codes)     |
+| `get*ByCriterion({ en: 'Bangkok' })`                | `get*ByCriterion({ name_en: 'Bangkok' })`             | `search('Bangkok')` or `match({ … })`                  |
+| `matchCriteria()`                                   | `matchCriteria()`                                     | Removed. Use `.filter()` on a list                     |
+| —                                                   | `createProvinceService()` and the others              | Removed. Call the functions directly                   |
+| `metadata`                                          | `metadata`                                            | `dataVersion`                                          |
+| —                                                   | `rawProvinces` (v3)                                   | `provinces()`, then `districts()` and `subdistricts()` |
+
+`search()` ignores case and spaces. It also finds part of a name. Use it for a search box. `match()` takes a full address that a person typed, and returns the subdistricts that fit it. Use it to clean old records.
+
+### Fields
+
+| v1                     | v2                     | v3                               | `@geothai/core`                    |
+| ---------------------- | ---------------------- | -------------------------------- | ---------------------------------- |
+| `id` (number)          | `code` (number)        | `code` (number)                  | `code` (string)                    |
+| `th`, `en`             | `name_th`, `name_en`   | `name_th`, `name_en`             | `name_th`, `name_en`               |
+| —                      | —                      | `name_th_lower`, `name_en_lower` | Removed. `search()` ignores case   |
+| `province_id`          | `province_code`        | `province_code`                  | `province_code` (string)           |
+| `district_id`          | `district_code`        | `district_code`                  | `district_code` (string)           |
+| `districts` (codes)    | `districts` (codes)    | `districts` (objects)            | Removed. Call `districts(code)`    |
+| `subdistricts` (codes) | `subdistricts` (codes) | `subdistricts` (objects)         | Removed. Call `subdistricts(code)` |
+| `postal_code` (number) | `postal_code` (number) | `postal_code` (number)           | `postal_codes` (array of strings)  |
+
+A subdistrict can have more than one postal code. Old code that read `postal_code` must read `postal_codes[0]`, or show every code in the array.
+
+### Postal codes
+
+The old `PostalCode` object is gone. `byPostalCode()` returns the subdistricts that use a postal code. To get the district and province names too, as the v3 `addresses` gave you, pass each code to `address()`:
+
+```ts
+import { address, byPostalCode } from '@geothai/core';
+
+const rows = byPostalCode('84280').map((s) => address(s.code));
+rows[0]?.province.name_en; // 'Surat Thani'
+```
+
+### Data
+
+The data is newer than in 1.x to 3.x. DOPA abolished some areas and made new ones since then. If you stored codes from the old package, some of them may be gone. `subdistrict(code)` returns `undefined` for such a code. To find the codes that replaced it, use `@geothai/core/abolished`:
+
+```ts
+import { subdistrict } from '@geothai/core';
+import { abolishedAreas } from '@geothai/core/abolished';
+
+const old = '100205'; // แขวงบางซื่อ of เขตดุสิต, abolished in 2006
+if (!subdistrict(old)) {
+  const gone = abolishedAreas().find((a) => a.code === old);
+  gone?.successors; // ['102901']
+}
+```
 
 The v3 code is on the [`archive`](https://github.com/GeoThai/npm-packages/tree/archive) branch.
 
