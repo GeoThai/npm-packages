@@ -1,6 +1,6 @@
 {
-  "name": "geothai",
-  "version": "4.2.1",
+  "name": "@geothai/core",
+  "version": "5.0.0",
   "description": "Every province, district, subdistrict and postal code of Thailand, with types and search",
   "keywords": [
     "address",
@@ -27,6 +27,9 @@
     "./abolished": "./dist/abolished.js",
     "./types": "./dist/types.js",
     "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",

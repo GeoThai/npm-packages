@@ -166,7 +166,7 @@ export function search(query: string, options: SearchOptions = {}): SearchResult
  * @param query - See {@link MatchQuery}. Empty fields are ignored.
  * @returns Every address that fits, sorted by subdistrict code. One result means the address is clear.
  *   More than one means you need another field. None means no current subdistrict has this name:
- *   for an old name, check `abolishedAreas()` in `geothai/abolished`.
+ *   for an old name, check `abolishedAreas()` in `@geothai/core/abolished`.
  * @example
  * match({ subdistrict: 'วังทอง' }).length; // 9
  * match({ subdistrict: 'วังทอง', province: 'จ.พิษณุโลก' }).map((a) => a.subdistrict.code); // ['650801']

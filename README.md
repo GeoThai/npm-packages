@@ -2,6 +2,8 @@
 
 Every province, district, subdistrict and postal code of Thailand, in one small package with types and search.
 
+The package is [`@geothai/core`](https://www.npmjs.com/package/@geothai/core). Until 4.2, it was `geothai`, which now points here.
+
 [👉 Website](https://geothai.fasu.dev) · [👉 Data and changelog](https://github.com/GeoThai/data)
 
 ## Features
@@ -16,7 +18,7 @@ Every province, district, subdistrict and postal code of Thailand, in one small 
 ## Install
 
 ```sh
-npm install geothai
+npm install @geothai/core
 ```
 
 The package is ESM. Node 22.12 and later can also load it with `require()`.
@@ -24,7 +26,7 @@ The package is ESM. Node 22.12 and later can also load it with `require()`.
 ## Usage
 
 ```ts
-import { address, byPostalCode, districts, province, search, subdistricts } from 'geothai';
+import { address, byPostalCode, districts, province, search, subdistricts } from '@geothai/core';
 
 province('84');
 // { code: '84', name_th: 'สุราษฎร์ธานี', name_en: 'Surat Thani' }
@@ -67,7 +69,7 @@ Every function takes codes as strings and returns a new array, so you can sort o
 The areas that DOPA abolished have their own entry. The main entry does not hold them, so they stay out of your bundle:
 
 ```ts
-import { abolishedAreas } from 'geothai/abolished';
+import { abolishedAreas } from '@geothai/core/abolished';
 
 const bangNa = abolishedAreas().find((a) => a.code === '104701');
 bangNa?.abolished_on; // '2022-04-22'
@@ -80,7 +82,7 @@ bangNa?.successors_basis; // 'notice'
 For a name from an old record that `match()` does not find, `matchAbolished()` looks in the abolished subdistricts:
 
 ```ts
-import { matchAbolished } from 'geothai/abolished';
+import { matchAbolished } from '@geothai/core/abolished';
 
 matchAbolished({ subdistrict: 'แขวงบางนา', district: 'เขตบางนา', province: 'กทม' }).map(
   (a) => a.successors,
@@ -93,7 +95,7 @@ For maps on the same codes, use [`@geothai/maps`](https://github.com/GeoThai/map
 ## Types
 
 ```ts
-import type { Province, ProvinceCode, SearchResult, Subdistrict } from 'geothai/types';
+import type { Province, ProvinceCode, SearchResult, Subdistrict } from '@geothai/core/types';
 ```
 
 | Type                                                     | Content                                                        |

@@ -33,7 +33,7 @@ const list: () => Abolished[] = /* @__PURE__ */ once(() =>
  *
  * @returns A new array of abolished districts and subdistricts, with the date each one ended.
  * @example
- * import { abolishedAreas } from 'geothai/abolished';
+ * import { abolishedAreas } from '@geothai/core/abolished';
  * abolishedAreas().find((a) => a.code === '100205')?.abolished_on; // '2006-01-01'
  */
 export function abolishedAreas(): Abolished[] {
@@ -50,9 +50,9 @@ export function abolishedAreas(): Abolished[] {
  *
  * @param query - The names as the old record has them. See {@link MatchQuery}.
  * @returns Every abolished subdistrict that fits. Its `successors` are the current codes: pass
- *   one to `address()` from `geothai` for the full address.
+ *   one to `address()` from `@geothai/core` for the full address.
  * @example
- * import { matchAbolished } from 'geothai/abolished';
+ * import { matchAbolished } from '@geothai/core/abolished';
  * matchAbolished({ subdistrict: 'แขวงบางนา', district: 'เขตบางนา', province: 'กทม' })[0]?.successors;
  * // ['104702', '104703']
  */

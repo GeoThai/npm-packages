@@ -40,7 +40,16 @@ jobs:
       - run: bun test
       - run: bun run typecheck
       - run: bun run size
-      - run: npm publish
+      # A version published by hand, such as the first one under a new name, is not published again.
+      - name: Publish
+        run: |
+          name=$(jq -r .name package.json)
+          version=$(jq -r .version package.json)
+          if npm view "$name@$version" version >/dev/null 2>&1; then
+            echo "$name@$version is already on npm."
+          else
+            npm publish
+          fi
       - run: npx changelogithub@15.0.5
         env:
           GITHUB_TOKEN: ${{ github.token }}

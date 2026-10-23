@@ -17,11 +17,11 @@ try {
   ].join('\n');
   await Bun.write(
     join(dir, 'esm.mjs'),
-    `import { province } from 'geothai';\nimport { abolishedAreas } from 'geothai/abolished';\n${check}\n`,
+    `import { province } from '@geothai/core';\nimport { abolishedAreas } from '@geothai/core/abolished';\n${check}\n`,
   );
   await Bun.write(
     join(dir, 'cjs.cjs'),
-    `const { province } = require('geothai');\nconst { abolishedAreas } = require('geothai/abolished');\n${check}\n`,
+    `const { province } = require('@geothai/core');\nconst { abolishedAreas } = require('@geothai/core/abolished');\n${check}\n`,
   );
   await $`node esm.mjs`.cwd(dir);
   await $`node cjs.cjs`.cwd(dir);
