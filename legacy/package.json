@@ -1,0 +1,37 @@
+{
+  "name": "geothai",
+  "version": "4.2.2",
+  "description": "Moved to @geothai/core. This package re-exports it.",
+  "homepage": "https://www.npmjs.com/package/@geothai/core",
+  "license": "MIT AND CC-BY-4.0",
+  "author": "Pongsakorn Thipayanate",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GeoThai/npm-packages.git",
+    "directory": "legacy"
+  },
+  "files": [
+    "*.js",
+    "*.d.ts"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    },
+    "./abolished": {
+      "types": "./abolished.d.ts",
+      "default": "./abolished.js"
+    },
+    "./types": {
+      "types": "./types.d.ts",
+      "default": "./types.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "dependencies": {
+    "@geothai/core": "^5.0.0"
+  }
+}
