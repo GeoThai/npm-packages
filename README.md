@@ -58,7 +58,7 @@ match({ subdistrict: 'ต.ตลาด', district: 'อ.เมือง', provin
 | `byPostalCode(postalCode)`   | The subdistricts that use a postal code                                               |
 | `search(query, { limit })`   | Provinces, districts and subdistricts whose name has the query                        |
 | `match(query)`               | The addresses that fit a hand-written subdistrict, district, province and postal code |
-| `dataVersion`                | The GeoThai/data release in this package, such as `'2026.10.22'`                      |
+| `dataVersion`                | The GeoThai/data release in this package, such as `'2026.10.23'`                      |
 
 Every function takes codes as strings and returns a new array, so you can sort or change it.
 
@@ -87,6 +87,8 @@ matchAbolished({ subdistrict: 'แขวงบางนา', district: 'เข�
 );
 // [['104702', '104703']]
 ```
+
+For maps on the same codes, use [`@geothai/maps`](https://github.com/GeoThai/maps): SVG maps of every province, district and subdistrict, with React, Vue and Svelte components.
 
 ## Types
 
